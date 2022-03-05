@@ -4,7 +4,7 @@ from django.forms import ImageField
 # Create your models here.
 
 
-class Data(models.Model):
+class ShopData(models.Model):
     '''
         ## 매장정보가 담겨있는 모델
         * 매장이름
@@ -21,7 +21,13 @@ class Data(models.Model):
     contact = models.CharField(max_length=100)   # 매장 연락처
     content = models.TextField()   # 매장 정보
     shopType = models.CharField(max_length=100)   # 매장 종류
-    photo = models.ImageField()   # 매장 사진
+    photo = models.ImageField(null=True)   # 매장 사진
+
+    def __str__(self) -> str:
+        """
+        id 대신 제목을 표시 해주는 기능
+        """
+        return self.name
 
 
 class Comment(models.Model):
@@ -34,3 +40,9 @@ class Comment(models.Model):
     nickName = models.CharField(max_length=100)  # 닉네임
     content = models.TextField()   # 댓글 내용
     date = models.DateTimeField()   # 댓글 쓴 날짜
+
+    def __str__(self) -> str:
+        """
+        id 대신 제목을 표시 해주는 기능
+        """
+        return self.name
