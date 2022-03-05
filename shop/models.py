@@ -30,7 +30,7 @@ class ShopData(models.Model):
         return self.name
 
 
-class Comment(models.Model):
+class Comments(models.Model):
     '''
         ## 매장정보에 대한 댓글
         * 닉네임

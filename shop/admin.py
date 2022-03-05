@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import ShopData
-from .models import Comment
+from .models import Comments
+
 
 class ShopDataAdmin(admin.ModelAdmin):
     search_fields = ['Name']
@@ -9,4 +10,4 @@ class ShopDataAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ShopData, ShopDataAdmin)
-admin.site.register(Comment)
+admin.site.register(Comments)
