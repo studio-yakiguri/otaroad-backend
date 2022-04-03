@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.forms import ImageField
 
@@ -37,7 +38,7 @@ class ShopData(models.Model):
     content = models.TextField(help_text="매장 상세정보 입력")   # 매장 상세정보
     shopType = models.ManyToManyField(ShopType, help_text="매장 종류 선택", )  # 매장종류
     homePage = models.CharField(max_length=100, blank=True, null=True) # 매장 홈페이지주소
-    photo = models.ImageField(blank=True, null=True)  # 매장 사진
+    photo = models.ImageField(blank=True, null=True, upload_to='%Y%m%d%m')  # 매장 사진
 
     def __str__(self) -> str:
         """
