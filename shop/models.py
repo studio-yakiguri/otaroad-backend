@@ -2,40 +2,54 @@ from django.db import models
 from django.forms import ImageField
 
 # Create your models here.
-
-
+class ShopType(models.Model):
+    type = models.CharField(max_length=50, help_text="매장 종류를 입력(예: 서점)")
+    def __str__(self) -> str:
+        """
+        Display title instead of ID
+        """
+        return self.type
+    
+class Location(models.Model):
+    location = models.CharField(max_length=50, help_text="지역 입력(예: 서울)")
+    def __str__(self) -> str:
+        """
+        Display title instead of ID
+        """
+        return self.location
+    
 class ShopData(models.Model):
+    '''Contained info of ShopData
+        * shopname
+        * shop location
+        * shop WorkTime
+        * shop contact
+        * shop content
+        * shop type
+        * shop homepage
+        * shop photo
     '''
-        ## 매장정보가 담겨있는 모델
-        * 매장이름
-        * 매장위치
-        * 매장운영시간
-        * 매장 연락처
-        * 매장 정보
-        * 매장 종류
-        * 매장 사진
-    '''
-    name = models.CharField(max_length=100)   # 매장이름
-    location = models.CharField(max_length=200)   # 매장위치
-    workTime = models.CharField(max_length=100)   # 매장운영시간
-    contact = models.CharField(max_length=100)   # 매장 연락처
-    content = models.TextField()   # 매장 정보
-    shopType = models.CharField(max_length=100)   # 매장 종류
-    photo = models.ImageField(null=True)   # 매장 사진
+    name = models.CharField(max_length=100, help_text="매장 이름 입력")   # 매장 이름
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True) # 매장 지역
+    address = models.CharField(max_length=200, help_text="매장 상세주소 입력") # 매장 상세주소
+    workTime = models.TextField(help_text="매장 운영시간 입력")  # 매장 운영시간
+    contact = models.TextField(help_text="매장 연락처 입력")  # 매장 연락처
+    content = models.TextField(help_text="매장 상세정보 입력")   # 매장 상세정보
+    shopType = models.ManyToManyField(ShopType, help_text="매장 종류 선택", )  # 매장종류
+    homePage = models.CharField(max_length=100, blank=True, null=True) # 매장 홈페이지주소
+    photo = models.ImageField(blank=True, null=True)  # 매장 사진
 
     def __str__(self) -> str:
         """
-        id 대신 제목을 표시 해주는 기능
+        Display title instead of ID
         """
         return self.name
 
-
 class Comments(models.Model):
-    '''
-        ## 매장정보에 대한 댓글
-        * 닉네임
-        * 댓글 내용
-        * 댓글 쓴 날짜
+    '''Comments of ShopData
+        * Nickname
+        * Content of comment
+        * Date of comment
     '''
     nickName = models.CharField(max_length=100)  # 닉네임
     content = models.TextField()   # 댓글 내용
@@ -43,6 +57,6 @@ class Comments(models.Model):
 
     def __str__(self) -> str:
         """
-        id 대신 제목을 표시 해주는 기능
+        Display title instead of ID
         """
-        return self.name
+        return self.nickName
