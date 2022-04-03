@@ -6,16 +6,18 @@ from .models import ShopData
 class ShopDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShopData
-        fields = '__all__'
+        fields = '__all__'  # field를 모두 가져오는 것
         '''
         field = (
                 'id',
                 'name',
-                'location',
+                'address',
                 'workTime',
                 'contact',
                 'content',
-                'shopType',
+                'homePage',
                 'photo'
+                'location',
+                'shopType',
         )
         '''
