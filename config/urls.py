@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from shop.views import ShopDataViewSet
+#from shop.views import ShopDataViewSet
 
-router = routers.DefaultRouter()
-router.register('shop', ShopDataViewSet)
+#router = routers.DefaultRouter()
+#router.register('shop', ShopDataViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    # path('shopV1/', include('shop.urls')),
+    # path('', include(router.urls)),
+    path('shop/v1/', include('shop.urls')),
 ]
