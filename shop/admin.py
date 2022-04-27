@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ShopData, Comment, ShopType, Location
+from .models import ShopData, Comment, ShopType, Location, GenderStyle
 
 
 @admin.register(ShopData)
@@ -41,3 +41,4 @@ class CommentAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(ShopType)
 admin.site.register(Location)
+admin.site.register(GenderStyle)

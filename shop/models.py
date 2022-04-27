@@ -14,15 +14,40 @@ class ShopType(models.Model):
         """
         return self.type
 
+    class Meta:
+        db_table = 'ShopType'
+
 
 class Location(models.Model):
-    location = models.CharField(max_length=50, help_text="지역 입력(예: 서울)")
+    location = models.CharField(
+        max_length=50,
+        help_text="지역 입력(예: 서울)"
+    )
 
     def __str__(self) -> str:
         """
         Display title instead of ID
         """
         return self.location
+
+    class Meta:
+        db_table = 'Location'
+
+
+class GenderStyle(models.Model):
+    gender = models.CharField(
+        max_length=50,
+        help_text="매장이 취급하는 상품요소(여성향, 남성향) 입력"
+    )
+
+    def __str__(self) -> str:
+        """
+        Display title instead of ID
+        """
+        return self.gender
+
+    class Meta:
+        db_table = 'GenderStyle'
 
 
 class ShopData(models.Model):
@@ -66,20 +91,27 @@ class ShopData(models.Model):
     )
     # 매장종류 N:M
     shopType = models.ManyToManyField(
-        ShopType, 
-        help_text="매장 종류 선택"
+        ShopType,
+        help_text="매장 종류 선택 - "
     )
     # 매장 홈페이지주소
     homePage = models.CharField(
         max_length=100,
         blank=True,
-        null=True
+        null=True,
+        help_text="매장 홈페이지 URL 입력"
     )
     # 매장 트위터주소
     twitter = models.CharField(
-        max_length=100,
+        max_length=300,
         blank=True,
-        null=True
+        null=True,
+        help_text="twitter URL 입력"
+    )
+    # 매장의 성향 N:M
+    genderStyle = models.ManyToManyField(
+        GenderStyle,
+        help_text="매장 성별 성향 선택 - "
     )
     # 매장 사진
     photo = models.ImageField(
@@ -93,6 +125,9 @@ class ShopData(models.Model):
         Display title instead of ID
         """
         return self.name
+
+    class Meta:
+        db_table = 'ShopData'
 
 
 class Comment(models.Model):
@@ -111,7 +146,7 @@ class Comment(models.Model):
     date = models.DateTimeField()
     # 댓글을 달 샵 정보
     shop = models.ForeignKey(
-        ShopData, 
+        ShopData,
         on_delete=models.CASCADE,
         null=True)
 
@@ -120,3 +155,6 @@ class Comment(models.Model):
         Display title instead of ID
         """
         return self.nickName
+
+    class Meta:
+        db_table = 'Comment'
