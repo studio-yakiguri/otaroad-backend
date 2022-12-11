@@ -1,7 +1,8 @@
 # Django Import
-from django.http import Http404, QueryDict
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.db.models import Q
+from django.db import transaction
 
 # rest_framework Import
 from rest_framework.response import Response
@@ -13,19 +14,18 @@ from .serializers import ShopDataSerializer
 from .models import ShopData
 
 # type hint import
-from typing import Dict
 from django.db.models.query import QuerySet
 
 # Create your views here.
 
 
-class ShopInfo(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIView):
+class ShopList(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIView):
     queryset = ShopData.objects.all()
     serializer_class = ShopDataSerializer
-    
+
     def search(self, request) -> tuple:
         """query 검색하는 함수
-        :param 
+        :param
             name, location, shopType
 
         :return
@@ -37,14 +37,16 @@ class ShopInfo(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIVie
         shoptype: str = ''
 
         # GET Method인 경우
-        name = request.GET.get('name', None)
-        location = request.GET.get('location', None)
-        shoptype = request.GET.get('shopType', None)
+        if bool(request.GET) is True:
+            name = request.GET.get('name', None)
+            location = request.GET.get('location', None)
+            shoptype = request.GET.get('shopType', None)
 
         # POST Method인 경우
-        name = request.POST.get('name', None)
-        location = request.POST.get('location', None)
-        shoptype = request.POST.get('shopType', None)
+        if bool(request.POST) is True:
+            name = request.POST.get('name', None)
+            location = request.POST.get('location', None)
+            shoptype = request.POST.get('shopType', None)
 
         # 필터링 옵션 적용
         search_option = Q()
@@ -60,13 +62,12 @@ class ShopInfo(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIVie
         # 매장 형태 옵션 있는 경우
         if shoptype:
             search_option.add(Q(shopType=shoptype), Q.AND)
-            
-        queryset = ShopData.objects.filter(search_option).distinct()
-            
-        return queryset, bool(queryset)
-        
 
-    def get(self, request, format=None):
+        queryset = ShopData.objects.filter(search_option).distinct()
+
+        return queryset, bool(queryset)
+
+    def get(self, request, format=None) -> Response:
         """ HTTP GET 요청 처리하는 함수
         :param request: http request가 담긴 데이터
             * name
@@ -76,16 +77,24 @@ class ShopInfo(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIVie
         :return
             쿼리에 맞는 검색데이터 return
         """
-        
-        queryset, check = self.search(request)
+
+        queryset = self.search(request)[0]
 
         # 데이터 시리얼라이징
-        result = ShopInfo.serializer_class(queryset, many=True)
+        result = ShopList.serializer_class(queryset, many=True)
 
         return Response(result.data)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs) -> Response:
+        check = self.search(request)[1]
+        if check is False:
+            return self.create(request, *args, **kwargs)
+        else:
+            return HttpResponseNotAllowed(['POST'])
 
-    def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def put(self, request, *args, **kwargs) -> Response:
+        check = self.search(request)[1]
+        if check is True:
+            return self.update(request, *args, **kwargs)
+        else:
+            return HttpResponseNotAllowed(['PUT'])
