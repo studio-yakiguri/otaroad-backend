@@ -30,5 +30,5 @@ from shop import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/shop/', views.ShopList.as_view()),
-    path('v1/shop/<int:id>', views.ShopList.as_view()),
+    path('v1/shop/<int:id>', views.ShopInfo.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
