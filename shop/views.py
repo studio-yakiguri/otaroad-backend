@@ -43,11 +43,6 @@ def search(request) -> tuple:
         location: str = request.POST.get('location', None)
         shoptype: str = request.POST.get('shopType', None)
 
-    if bool(request.PUT) is True:
-        name: str = request.POST.get('name', None)
-        location: str = request.POST.get('location', None)
-        shoptype: str = request.POST.get('shopType', None)
-
     # 필터링 옵션 적용
     search_option = Q()
 
