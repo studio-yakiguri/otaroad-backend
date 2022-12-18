@@ -2,7 +2,7 @@
 현재 개발중인 백엔드 서버 저장소 입니다.
 
 ## Project Structure
-Wiki를 참고해주세요.
+[프로젝트 구조](https://github.com/dlehdgud2380/subculture-map/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0)
 
 ## Tech Stack
 * Python 3.9 -> 개발언어
