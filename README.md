@@ -16,6 +16,7 @@
 ### Frontend
 * Flutter -> iOS, Android
 * HTML5 with BootStrap 5 -> Web
+* Javascript -> Web
 * Axios -> HTTP통신
 
 ## Getting Started
