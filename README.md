@@ -12,10 +12,3 @@
 
 ## Third-Party Licenses
 확인중
-
-## Getting Started
-1. git clone https://github.com/dlehdgud2380/subculture-map
-2. python3 manage.py createsuperuser
-3. python3 manage.py makemigrations
-4. python3 manage.py migrate
-5. python3 manage.py runserver
