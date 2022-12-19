@@ -5,6 +5,7 @@
 * 기술적인 피드백 및 의견을 ISSUES에 남겨주시면 적극적으로 반영할 수 있도록 하겠습니다.
 
 ## Project Structure
+이 프로젝트의 구조는 아래의 링크를 참고 해주십시오 
 [프로젝트 구조](https://github.com/dlehdgud2380/subculture-map/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0)
 
 ## Getting Started
