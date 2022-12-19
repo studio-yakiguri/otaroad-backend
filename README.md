@@ -1,5 +1,5 @@
 # subculture-map -> DEV저장소
-현재 개발중인 저장소 입니다.
+(현재 개발중인 저장소 입니다. 버그가 해결되고 안정화 되면 BETA 저장소로 이동합니다.)
 
 ## Project Structure
 [프로젝트 구조](https://github.com/dlehdgud2380/subculture-map/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0)
