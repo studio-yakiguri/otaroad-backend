@@ -1,14 +1,11 @@
 # Django Import
-from django.http import HttpResponseNotAllowed
-from django.shortcuts import render
 from django.db.models import Q
-from django.db import transaction
 
 # rest_framework Import
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
-from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 
 # seriallizer & model Import
 from .serializers import ShopDataSerializer
@@ -58,7 +55,7 @@ def search(request) -> tuple:
     if shoptype:
         search_option.add(Q(shopType=shoptype), Q.AND)
 
-    queryset = ShopData.objects.filter(search_option).distinct()
+    queryset: QuerySet = ShopData.objects.filter(search_option).distinct()
 
     return queryset, bool(queryset)
 
