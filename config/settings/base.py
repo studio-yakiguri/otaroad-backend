@@ -17,7 +17,7 @@ from pathlib import Path
 import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,11 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 json_file = open('secure/secretKey.json', 'r')
 secret_key_data: Dict = dict(json.loads(json_file.read()))
 SECRET_KEY = secret_key_data['key']
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
