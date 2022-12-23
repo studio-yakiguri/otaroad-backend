@@ -1,6 +1,5 @@
-from distutils.command.upload import upload
 from django.db import models
-from django.forms import ImageField
+from datetime import datetime
 
 # Create your models here.
 
@@ -61,6 +60,14 @@ class ShopData(models.Model):
         * shop homepage
         * shop photo
     '''
+
+    # Image save path Functions for image field
+    def image_upload_path(instance, filename):
+        ext: str = filename[-4:]
+        uploaded_date = datetime.today().strftime('%Y%m%d%H%M%S')
+        filename = f'{uploaded_date}{ext}'
+        return f'shop_{instance.id}/{filename}'
+
     # 매장 이름
     name = models.CharField(
         max_length=100,
@@ -117,7 +124,7 @@ class ShopData(models.Model):
     photo = models.ImageField(
         blank=True,
         null=True,
-        upload_to='%Y%m%d%m'
+        upload_to=image_upload_path
     )
 
     def __str__(self) -> str:
