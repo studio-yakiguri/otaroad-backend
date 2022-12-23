@@ -11,10 +11,14 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from .serializers import ShopDataSerializer
 from .models import ShopData
 
+# loogging Import
+import logging
+
 # type hint import
 from django.db.models.query import QuerySet
 
 # Create your views here.
+logger = logging.getLogger('shop')
 
 
 def search(request) -> tuple:
