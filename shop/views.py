@@ -75,10 +75,14 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
 
     def post(self, request, *args, **kwargs) -> Response:
         check = search(request)[1]
+
+        # 중복 데이터 생성 방지
         if check is False:
             return self.create(request, *args, **kwargs)
         else:
-            return Response()
+            return Response({
+                'message': 'This Shop is already registered'
+            })
 
 
 class ShopInfo(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
