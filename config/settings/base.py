@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import sys
 from typing import Dict
 
 from pathlib import Path
@@ -23,13 +24,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# Logs Directory Generate
+# Log Directory Generate
 if 'logs' not in os.listdir(BASE_DIR):
     os.mkdir(f'{BASE_DIR}/logs')
+
+# Secure Directory Generate
+if 'secure' not in os.listdir(BASE_DIR):
+    os.mkdir(f'{BASE_DIR}/secure')
+    f = open('secure/secretKey.json', 'w')
+    file_data: str = '{\n   "key" : ""\n}'
+    f.writelines(file_data)
+    f.close()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 json_file = open('secure/secretKey.json', 'r')
 secret_key_data: Dict = dict(json.loads(json_file.read()))
+json_file.close()
+
+if secret_key_data['key'] == "":
+    print("Please input django secret key in secure/secretKey.json")
+    sys.exit()
+
 SECRET_KEY = secret_key_data['key']
 
 # Application definition
