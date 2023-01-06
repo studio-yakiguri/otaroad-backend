@@ -12,3 +12,8 @@ DATABASES = {
     'default': {
     }
 }
+
+# 허용할 Origin 추가
+CORS_ALLOWED_ORIGINS = [
+    ''
+]
