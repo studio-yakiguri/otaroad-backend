@@ -6,25 +6,10 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 from pathlib import Path
 
-# Json Message Generator
 
-
-def message(error, message) -> dict:
-    return
-
-
-def api_server_check(url: str, api_key: str = '') -> dict:  # API Server Check
+def api_server_check(url: str, api_key: dict) -> dict:  # API Server Check
     service: str = ''
-    auth: str = ''
     p = re.compile('[a-z]+')
-
-    if 'kakao' in p.findall(url):
-        service = 'kakao'
-        auth = f'KakaoAK {api_key}'
-    elif 'naveropenapi' in p.findall(url):
-        service = 'naver'
-        auth = ''
-
     result: dict = {
         'service': service,
         'url': '',
@@ -32,17 +17,28 @@ def api_server_check(url: str, api_key: str = '') -> dict:  # API Server Check
         'code': ''
     }
 
-    param = urlencode({'query': '경기 성남시 분당구 야탑동'})
+    if 'kakao' in p.findall(url):
+        service = 'kakao'
+        access_key: str = api_key['apiKey']
+        headers: dict = {
+            'Authorization': f'KakaoAK {access_key}'
+        }
+    elif 'naveropenapi' in p.findall(url):
+        service = 'naver'
+        client_id: str = api_key['clientId']
+        client_secret: str = api_key['clientSecret']
+        headers: dict = {
+            'X-NCP-APIGW-API-KEY-ID': client_id,
+            'X-NCP-APIGW-API-KEY': client_secret
+        }
 
     try:
+        param = urlencode({'query': '경기 성남시 분당구 야탑동'})
         req = Request(
             url=url+f'?{param}',
-            headers={
-                'Authorization': auth
-            }
+            headers=headers
         )
         with urlopen(req) as response:
-            # print(json.loads(response.read()))
             result['url'] = response.url
             result['message'] = 'OK'
             result['code'] = response.status
@@ -61,28 +57,37 @@ def api_server_check(url: str, api_key: str = '') -> dict:  # API Server Check
 class APIKeyLoader:  # API Key Check and Return
     def __init__(self, file: str) -> None:
         self.file: str = f'{file}.json'
-        self.api_key: str = 'None'
-        self.api_key_loader()
+        self.api_key: dict = {}
+        self.key_status: bool = False
+        self.__api_key_loader()
 
-    def api_key_loader(self) -> None:
+    def __api_key_loader(self) -> None:
         BASEDIR: str = Path(__file__).resolve().parent.parent.parent
 
-        # API Key Generation
+        # API Key File Generation
+        if self.file == '.json':
+            raise FileNotFoundError("Please input service name")
         if self.file not in os.listdir(f'{BASEDIR}/secure'):
-            f = open(f'secure/{self.file}', 'w')
-            file_data: str = '{\n   "key" : ""\n}'
-            f.writelines(file_data)
-            f.close()
+            raise ValueError(
+                f"Your '{self.file}' is not found, please make '{self.file}' and input your api access key.")
 
-        # Key File Load & Check
+        # Key File Load
         json_file = open(f'secure/{self.file}', 'r')
-        api_key: dict = dict(json.loads(json_file.read()))
-        self.api_key = api_key['key']
+        self.api_key = dict(json.loads(json_file.read()))
         json_file.close()
-        if bool(api_key) is False:
-            print('Please input a valid API key')
 
-    def __repr__(self) -> str:
+        # Key Data Check
+        if self.file == 'kakao.json':
+            if bool(self.api_key['apiKey']) is True:
+                self.key_status = True
+        if self.file == 'naver.json':
+            if bool(self.api_key['clientId']) is True:
+                if bool(self.api_key['clientSecret']) is True:
+                    self.key_status = True
+
+    def load(self) -> dict:
+        if self.key_status is False:
+            raise ValueError(f'Api key isn`t found in {self.file}')
         return self.api_key
 
 
