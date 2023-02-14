@@ -19,14 +19,14 @@ def api_server_check(url: str, api_key: dict) -> dict:  # API Server Check
 
     if 'kakao' in p.findall(url):
         service = 'kakao'
-        access_key: str = api_key['apiKey']
+        access_key: str = api_key['api_key']
         headers: dict = {
             'Authorization': f'KakaoAK {access_key}'
         }
     elif 'naveropenapi' in p.findall(url):
         service = 'naver'
-        client_id: str = api_key['clientId']
-        client_secret: str = api_key['clientSecret']
+        client_id: str = api_key['client_id']
+        client_secret: str = api_key['client_secret']
         headers: dict = {
             'X-NCP-APIGW-API-KEY-ID': client_id,
             'X-NCP-APIGW-API-KEY': client_secret
@@ -78,11 +78,11 @@ class APIKeyLoader:  # API Key Check and Return
 
         # Key Data Check
         if self.file == 'kakao.json':
-            if bool(self.api_key['apiKey']) is True:
+            if bool(self.api_key['api_key']) is True:
                 self.key_status = True
         if self.file == 'naver.json':
-            if bool(self.api_key['clientId']) is True:
-                if bool(self.api_key['clientSecret']) is True:
+            if bool(self.api_key['client_id']) is True:
+                if bool(self.api_key['client_secret']) is True:
                     self.key_status = True
 
     def load(self) -> dict:
