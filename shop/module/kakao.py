@@ -48,6 +48,11 @@ class Geocoding:
         # Data extract from Response
         data: dict = resp.json()
         documents: list = data.get('documents')
+
+        # if documents is empty
+        if len(documents) == 0:
+            raise ValueError(f"No Data about '{self.address}'")
+
         address: dict = documents[0]['address']
         road_address: dict = documents[0]['road_address']
 
