@@ -14,8 +14,8 @@ def is_valid() -> dict:  # 값이 맞는 지 확인
 
 
 class Geocoding:
-    def __init__(self, address: str) -> None:
-        self.address = address
+    def __init__(self) -> None:
+        self.address = URL
         self.address_data = {
             'address': None,
             'road_address': None,
