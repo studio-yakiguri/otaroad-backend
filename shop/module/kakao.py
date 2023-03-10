@@ -7,7 +7,6 @@ from util import APIKeyLoader
 URL: str = "https://dapi.kakao.com/v2/local/search/address.json"
 
 APIKEY: dict = APIKeyLoader('kakao').load()
-# server_check: dict = api_server_check(URL, APIKEY)
 
 
 def is_valid() -> dict:  # 값이 맞는 지 확인

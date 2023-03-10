@@ -2,7 +2,7 @@
 
 import requests
 
-from util import APIKeyLoader, api_server_check
+from util import APIKeyLoader
 
 URL: str = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
 
