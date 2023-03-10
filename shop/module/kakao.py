@@ -2,12 +2,12 @@
 
 import requests
 
-from util import APIKeyLoader, api_server_check
+from util import APIKeyLoader
 
 URL: str = "https://dapi.kakao.com/v2/local/search/address.json"
 
 APIKEY: dict = APIKeyLoader('kakao').load()
-server_check: dict = api_server_check(URL, APIKEY)
+# server_check: dict = api_server_check(URL, APIKEY)
 
 
 def is_valid() -> dict:  # 값이 맞는 지 확인
@@ -15,8 +15,8 @@ def is_valid() -> dict:  # 값이 맞는 지 확인
 
 
 class Geocoding:
-    def __init__(self, address: str) -> None:
-        self.address = address
+    def __init__(self) -> None:
+        self.address = URL
         self.address_data = {
             'address': None,
             'road_address': None,
@@ -39,7 +39,7 @@ class Geocoding:
         }
 
         # Request from KakaoMap local API
-        resp: dict = requests.get(
+        resp = requests.get(
             url=URL,
             params=params,
             headers=headers
