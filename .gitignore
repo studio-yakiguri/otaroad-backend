@@ -287,6 +287,8 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,django,venv,database
 
-
-### secret key json ###
+### Project ignore option by DongHyeongLee
 secure/*
+images/*
+api_status/*
+logs/*
