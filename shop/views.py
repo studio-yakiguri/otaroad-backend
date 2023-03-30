@@ -2,6 +2,7 @@
 from django.db.models import Q
 
 # rest_framework Import
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
@@ -16,6 +17,14 @@ import logging
 
 # type hint import
 from django.db.models.query import QuerySet
+from django.http import QueryDict
+
+# Geocode Module import
+from .module.naver import Geocoding as NaverGeo
+from .module.kakao import Geocoding as KakaoGeo
+
+# requests exception import
+from requests import exceptions
 
 # Create your views here.
 logger = logging.getLogger('shop')
@@ -77,12 +86,51 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
         check = search(request)[1]
 
         # 중복 데이터 생성 방지
-        if check is False:
-            return self.create(request, *args, **kwargs)
-        else:
-            return Response({
-                'message': 'This Shop is already registered'
-            })
+        if check is True:
+            return Response(
+                'This Shop is already registered', status=status.HTTP_409_CONFLICT
+            )
+
+        # 지오코딩 객체 선언을 위한 깡통 변수 선언
+        geocoding = None
+
+        # x, y값이 임의로 입력된 경우가 없는 경우 -> API 좌표 요청
+        if bool(request.data['x']) is not True:
+            try:
+                geocoding = KakaoGeo(request.data['address'])
+            except ValueError or exceptions.ConnectionError or exceptions.HTTPError:
+                print('Try to connect to NaverMap API')
+                try:
+                    geocoding = NaverGeo(request.data['address'])
+                except ValueError as e:
+                    return Response(
+                        e, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
+                except exceptions.ConnectionError or exceptions.HTTPError as e:
+                    return Response(
+                        e, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
+
+            x, y = geocoding.cordinates()
+            request_data: QueryDict = request.data.copy()
+            request_data.update(request.data)
+            request_data['x'] = x
+            request_data['y'] = y
+
+            # Twitter 주소가 mobile 주소가 들어왔을 경우
+            twitter_id = request_data['twitter'][27:]
+            if request_data['twitter'][0:26] == 'https://mobile.twitter.com':
+                changed_address = 'https://twitter.com/' + twitter_id
+                request_data['twitter'] = changed_address
+
+            # Serialization override
+            serializer = self.get_serializer(data=request_data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        return self.create(request, *args, **kwargs)
 
 
 class ShopInfo(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
