@@ -1,8 +1,9 @@
 # 네이버 geocoder module by DongHyeong Lee
 
-import requests
+from requests import get as http_get
+from requests import exceptions
 
-from util import APIKeyLoader
+from .util import APIKeyLoader
 
 URL: str = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
 
@@ -14,8 +15,8 @@ def is_valid() -> dict:  # 값이 맞는 지 확인
 
 
 class Geocoding:
-    def __init__(self) -> None:
-        self.address = URL
+    def __init__(self, address) -> None:
+        self.address = address
         self.address_data = {
             'address': None,
             'road_address': None,
@@ -40,11 +41,18 @@ class Geocoding:
         }
 
         # Request from NaverOpen API
-        resp = requests.get(
-            url=URL,
-            params=params,
-            headers=headers
-        )
+        try:
+            resp = http_get(
+                url=URL,
+                params=params,
+                headers=headers
+            )
+        except exceptions.ConnectionError as con_e:
+            print(con_e)
+            return
+        except exceptions.HTTPError as http_e:
+            print(http_e)
+            return
 
         # Data extract from Response
         data: dict = resp.json()

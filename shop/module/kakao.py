@@ -1,8 +1,9 @@
 # 카카오 geocoder module by DongHyeong Lee
 
-import requests
+from requests import get as http_get
+from requests import exceptions
 
-from util import APIKeyLoader
+from .util import APIKeyLoader
 
 URL: str = "https://dapi.kakao.com/v2/local/search/address.json"
 
@@ -14,8 +15,8 @@ def is_valid() -> dict:  # 값이 맞는 지 확인
 
 
 class Geocoding:
-    def __init__(self) -> None:
-        self.address = URL
+    def __init__(self, address) -> None:
+        self.address = address
         self.address_data = {
             'address': None,
             'road_address': None,
@@ -38,11 +39,18 @@ class Geocoding:
         }
 
         # Request from KakaoMap local API
-        resp = requests.get(
-            url=URL,
-            params=params,
-            headers=headers
-        )
+        try:
+            resp = http_get(
+                url=URL,
+                params=params,
+                headers=headers
+            )
+        except exceptions.ConnectionError as con_e:
+            print(con_e)
+            return
+        except exceptions.HTTPError as http_e:
+            print(http_e)
+            return
 
         # Data extract from Response
         data: dict = resp.json()
