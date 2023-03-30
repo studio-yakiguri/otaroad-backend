@@ -1,9 +1,8 @@
 from django.db import models
 from datetime import datetime
 
+
 # Create your models here.
-
-
 class ShopType(models.Model):
     type = models.CharField(max_length=50, help_text="매장 종류를 입력(예: 서점)")
 
@@ -113,7 +112,7 @@ class ShopData(models.Model):
         max_length=300,
         blank=True,
         null=True,
-        help_text="twitter URL 입력"
+        help_text="'https://twitter.com/트위터ID'형태의 URL 입력"
     )
     # 매장의 성향 N:M
     genderStyle = models.ManyToManyField(
@@ -125,6 +124,18 @@ class ShopData(models.Model):
         blank=True,
         null=True,
         upload_to=image_upload_path
+    )
+
+    # 매장 x 좌표
+    x = models.FloatField(
+        help_text="x좌표 입력(자동입력 됨)",
+        null=True
+    )
+
+    # 매장 y 좌표
+    y = models.FloatField(
+        help_text="y좌표 입력(자동입력 됨)",
+        null=True
     )
 
     def __str__(self) -> str:
