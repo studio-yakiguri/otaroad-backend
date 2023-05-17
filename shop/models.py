@@ -53,9 +53,10 @@ class ShopData(models.Model):
         * shopname
         * shop location
         * shop WorkTime
-        * shop contact
         * shop content
         * shop type
+        * shop email
+        * shop phone
         * shop homepage
         * shop photo
     '''
@@ -65,65 +66,86 @@ class ShopData(models.Model):
         ext: str = filename[-4:]
         uploaded_date = datetime.today().strftime('%Y%m%d%H%M%S')
         filename = f'{uploaded_date}{ext}'
-        return f'shop_{instance.id}/{filename}'
+        return f'shop_{instance.id}/{filename}'  # type: ignore
 
     # 매장 이름
     name = models.CharField(
         max_length=100,
         help_text="매장 이름 입력"
     )
+
     # 매장 지역 1:N
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,
         null=True
     )
+
     # 매장 상세주소
     address = models.CharField(
         max_length=200,
         help_text="매장 상세주소 입력"
     )
+
     # 매장 운영시간
     workTime = models.TextField(
         help_text="매장 운영시간 입력"
     )
-    # 매장 연락처
-    contact = models.TextField(
-        help_text="매장 연락처 입력"
-    )
+
     # 매장 상세정보
     content = models.TextField(
-        help_text="매장 상세정보 입력"
+        help_text="매장 상세정보(판매굿즈, 주차가능여부 등등) 입력"
     )
+
     # 매장종류 N:M
     shopType = models.ManyToManyField(
         ShopType,
-        help_text="매장 종류 선택 - "
+        help_text="매장 종류 선택"
     )
-    # 매장 홈페이지주소
+
+    # 매장 이메일 주소
+    email = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="매장 이메일 주소 입력 -> 'example@email.com'"
+    )
+
+    # 매장 홈페이지 주소
+    phone = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="매장 전화번호 입력 -> '010-1234-5678'"
+    )
+
+    # 매장 홈페이지 주소
     homePage = models.CharField(
         max_length=100,
         blank=True,
         null=True,
-        help_text="매장 홈페이지 URL 입력"
+        help_text="매장 홈페이지 URL 입력 -> 'https://example.com'"
     )
-    # 매장 트위터주소
+
+    # 매장 트위터 주소
     twitter = models.CharField(
         max_length=300,
         blank=True,
         null=True,
-        help_text="'https://twitter.com/트위터ID'형태의 URL 입력"
+        help_text="트위터 URL 입력 -> 'https://twitter.com/트위터ID'"
     )
+
     # 매장의 성향 N:M
     genderStyle = models.ManyToManyField(
         GenderStyle,
-        help_text="매장 성별 성향 선택 - "
+        help_text="매장 성별 성향 선택"
     )
+
     # 매장 사진
     photo = models.ImageField(
         blank=True,
         null=True,
-        upload_to=image_upload_path
+        upload_to=image_upload_path  # type: ignore
     )
 
     # 매장 x 좌표
@@ -146,33 +168,3 @@ class ShopData(models.Model):
 
     class Meta:
         db_table = 'ShopData'
-
-
-class Comment(models.Model):
-    '''Comments of ShopData
-        * Nickname
-        * Content of comment
-        * Date of comment
-    '''
-    # 닉네임
-    nickName = models.CharField(
-        max_length=100
-    )
-    # 댓글 내용
-    content = models.TextField()
-    # 댓글 쓴 날짜
-    date = models.DateTimeField()
-    # 댓글을 달 샵 정보
-    shop = models.ForeignKey(
-        ShopData,
-        on_delete=models.CASCADE,
-        null=True)
-
-    def __str__(self) -> str:
-        """
-        Display title instead of ID
-        """
-        return self.nickName
-
-    class Meta:
-        db_table = 'Comment'

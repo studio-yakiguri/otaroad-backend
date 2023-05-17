@@ -10,7 +10,7 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 
 # seriallizer & model Import
 from .serializers import ShopDataSerializer
-from .models import ShopData
+from .models import ShopData, Location, ShopType
 
 # loogging Import
 import logging
@@ -79,8 +79,17 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
 
     def get(self, request, format=None) -> Response:
         queryset = search(request)[0]
-        result = ShopList.serializer_class(queryset, many=True)
-        return Response(result.data)
+        shop_list = ShopList.serializer_class(queryset, many=True)
+        location_list = Location.objects.all()
+        shoptype_list = ShopType.objects.all()
+
+        response: dict = {
+            "location_list": location_list.values(),
+            "shoptype_list": shoptype_list.values(),
+            "shop_list": shop_list.data
+        }
+
+        return Response(response)
 
     def post(self, request, *args, **kwargs) -> Response:
         check = search(request)[1]
