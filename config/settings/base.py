@@ -42,6 +42,7 @@ secret_key_data: Dict = dict(json.loads(json_file.read()))
 json_file.close()
 
 if secret_key_data['key'] == "":
+    
     print("Please input django secret key in secure/secretKey.json")
     sys.exit()
 
@@ -211,6 +212,3 @@ LOGGING = {
         },
     }
 }
-
-# CORS
-CORS_ORIGIN_ALLOW_ALL = True
