@@ -148,12 +148,12 @@ class APIKeyLoader:
         # API Key File Generation
         if self.file == '.json':
             raise FileNotFoundError("Please input service name")
-        if self.file not in os.listdir(f'{BASEDIR}/secure'):
+        if self.file not in os.listdir(f'{BASEDIR}/.secure'):
             raise ValueError(
                 f"Your '{self.file}' is not found, please make '{self.file}' and input your api access key.")
 
         # Key File Load
-        json_file = open(f'secure/{self.file}', 'r')
+        json_file = open(f'.secure/{self.file}', 'r')
         self.api_key = dict(json.loads(json_file.read()))
         json_file.close()
 

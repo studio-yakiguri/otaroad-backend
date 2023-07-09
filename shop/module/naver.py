@@ -65,7 +65,8 @@ class Geocoding:
         # Data add to self.data
         self.address_data['address'] = addresses[0]['jibunAddress']
         self.address_data['road_address'] = addresses[0]['roadAddress']
-        self.address_data['buildng_name'] = self.address_data['address'].split()[-1]
+        self.address_data['buildng_name'] = self.address_data['address'].split(
+        )[-1]
         self.address_data['x'] = addresses[0]['x']
         self.address_data['y'] = addresses[0]['y']
 

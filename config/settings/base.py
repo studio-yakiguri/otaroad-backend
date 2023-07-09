@@ -11,11 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-import sys
-from typing import Dict
 
 from pathlib import Path
-import json
+
+from .util import get_key_data
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,22 +30,22 @@ if 'logs' not in os.listdir(BASE_DIR):
     os.mkdir(f'{BASE_DIR}/logs')
 
 # Secure Directory Generate
-if 'secure' not in os.listdir(BASE_DIR):
-    os.mkdir(f'{BASE_DIR}/secure')
-    f = open('secure/secretKey.json', 'w')
+if '.secure' not in os.listdir(BASE_DIR):
+    os.mkdir(f'{BASE_DIR}/.secure')
+    f = open('.secure/secretKey.json', 'w')
     file_data: str = '{\n   "key" : ""\n}'
     f.writelines(file_data)
     f.close()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-json_file = open('secure/secretKey.json', 'r')
-secret_key_data: Dict = dict(json.loads(json_file.read()))
-json_file.close()
+# json_file = open('secure/secretKey.json', 'r')
+# secret_key_data: Dict = dict(json.loads(json_file.read()))
+# json_file.close()
+secret_key_data = get_key_data('.secure/secretKey.json')
 
 if secret_key_data['key'] == "":
-    
-    print("Please input django secret key in secure/secretKey.json")
-    sys.exit()
+    raise ImproperlyConfigured(
+        "Please input django secret key in secure/secretKey.json")
 
 SECRET_KEY = secret_key_data['key']
 
