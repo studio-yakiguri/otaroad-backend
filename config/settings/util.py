@@ -7,7 +7,7 @@ BASEDIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Get Key from /secure directory
-def get_key_data(dir: str) -> dict:
+def get_secure_data(dir: str) -> dict:
     try:
         json_file = open(dir, 'r')
         data: Dict = dict(json.loads(json_file.read()))

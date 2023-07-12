@@ -14,7 +14,7 @@ import os
 
 from pathlib import Path
 
-from .util import get_key_data
+from .util import get_secure_data
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -41,11 +41,11 @@ if '.secure' not in os.listdir(BASE_DIR):
 # json_file = open('secure/secretKey.json', 'r')
 # secret_key_data: Dict = dict(json.loads(json_file.read()))
 # json_file.close()
-secret_key_data = get_key_data('.secure/secretKey.json')
+secret_key_data = get_secure_data('.secure/secretKey.json')
 
 if secret_key_data['key'] == "":
     raise ImproperlyConfigured(
-        "Please input django secret key in secure/secretKey.json")
+        "Please input secretKey.json in .secure/")
 
 SECRET_KEY = secret_key_data['key']
 
