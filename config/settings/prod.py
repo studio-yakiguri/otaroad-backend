@@ -1,32 +1,23 @@
 from .base import *
-from .util import get_key_data
+from .util import get_secure_data
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Debug Options
 DEBUG = False
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-secret_key_data = get_key_data('.secure/db.json')
+db_data = get_secure_data('.secure/db.json')
 
+if db_data['default'] == "":
+    raise ImproperlyConfigured(
+        "Please input db.json in .secure/")
 
-DATABASE = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-        'OPTIONS': {
-                'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }
-    }
-}
+DATABASES = db_data
 
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
-    ''
+    'https://subculture-map-frontend.pages.dev',
+    'http://127.0.0.1:8000'
 ]
