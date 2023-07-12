@@ -290,8 +290,10 @@ pip-selfcheck.json
 ### Project ignore option by DongHyeongLee
 .secure
 .secure/*
+/secure
 images
 images/*
 api_status
 api_status/*
 logs/*
+.project
