@@ -77,7 +77,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'otaroad.urls'
 
 TEMPLATES = [
     {
@@ -101,7 +101,7 @@ REST_FRAMEWORK = {
     ]
 }'''
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'otaroad.wsgi.application'
 
 
 # Password validation
