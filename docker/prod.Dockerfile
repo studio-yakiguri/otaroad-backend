@@ -15,6 +15,6 @@ RUN pip3 install -r requirements.txt
 
 VOLUME [ "/data" ]
 
-EXPOSE 9000
+EXPOSE 8000
 
-CMD [ "python3 -m gunicorn otaroad.asgi:application -k uvicorn.workers.UvicornWorker" ]
+CMD ["gunicorn", "--bind", "0:8000", "otaroad.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
