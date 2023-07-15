@@ -14,6 +14,8 @@ WORKDIR /subculture-map-backend
 RUN pip install -r requirements.txt
 RUN curl -k -X GET https://100.107.194.104/s/Rx7FsP4znMBgNjn/download --output secure.tar
 RUN tar -xvf secure.tar
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
 
 EXPOSE 8000
 
