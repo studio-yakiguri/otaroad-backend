@@ -7,16 +7,13 @@ LABEL env="beta"
 LABEL description="Docker image for Otaroad Backend for BETA"
 
 RUN apt update && apt install -y git pkg-config default-libmysqlclient-dev build-essential
-RUN mkdir data
-WORKDIR /data
+RUN apt install -y python3 python3-pip python3-venv
 RUN git clone -b beta https://github.com/subculture-map/subculture-map-backend
+WORKDIR /subculture-map-backend
 RUN mkdir .secure
-WORKDIR /data/subculture-map-backend/.secure
-WORKDIR /data/subculture-map-backend
-RUN pip3 install -r requirements.txt
-
-VOLUME [ "/data" ]
+RUN pip install -r requirements.txt
+RUN /subculture-map-backend/docker/setup-beta.sh
 
 EXPOSE 9000
 
-CMD [ "./docker/beta-runserver.sh" ]
+ENTRYPOINT [ "python3 -m gunicorn otaroad.asgi:application -k uvicorn.workers.UvicornWorker" ]
