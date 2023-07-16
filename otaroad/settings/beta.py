@@ -12,7 +12,7 @@ db_data = get_secure_data('.secure/db-beta.json')
 
 if db_data['default'] == "":
     raise ImproperlyConfigured(
-        "Please input db.json in .secure/")
+        "Please input db-beta.json in .secure/")
 
 DATABASES = db_data
 
@@ -21,5 +21,4 @@ CORS_ALLOWED_ORIGINS = [
     'https://dev.subculture-map-frontend.pages.dev',
     'http://127.0.0.1:8000'
     'http://100.107.194.104:9500'
-    'http://100.107.194.104:8000'
 ]

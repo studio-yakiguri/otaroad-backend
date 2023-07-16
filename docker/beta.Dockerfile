@@ -17,6 +17,6 @@ RUN tar -xvf secure.tar
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 
-EXPOSE 8000
+EXPOSE 9500
 
-CMD ["gunicorn", "--bind", "0:8000", "otaroad.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "--bind", "0:9500", "otaroad.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
