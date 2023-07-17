@@ -36,6 +36,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 now = datetime.now()
 today_date = now.strftime('%Y-%m-%d')
 
+# Log Directory Generate
+if 'logs' not in os.listdir(BASE_DIR):
+    os.mkdir(f'{BASE_DIR}/logs')
+
 # Secure Directory Generate
 if '.secure' not in os.listdir(BASE_DIR):
     os.mkdir(f'{BASE_DIR}/.secure')
