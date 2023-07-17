@@ -1,7 +1,8 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104", "beta-api.otaroad.party"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104",
+                 "sc0-nas.wahoo-in.ts.net:8443"]
 
 # Debug Options
 DEBUG = False
@@ -29,5 +30,5 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://100.107.194.104:9500',
     'https://beta.otaroad.party'
-    'https://beta-api.otaroad.party'
+    'https://sc0-nas.wahoo-in.ts.net:8443'
 ]
