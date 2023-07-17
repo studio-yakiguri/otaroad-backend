@@ -12,9 +12,6 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from .serializers import ShopDataSerializer
 from .models import ShopData, Location, ShopType
 
-# loogging Import
-import logging
-
 # type hint import
 from django.db.models.query import QuerySet
 from django.http import QueryDict
@@ -25,9 +22,6 @@ from .module.kakao import Geocoding as KakaoGeo
 
 # requests exception import
 from requests import exceptions
-
-# Create your views here.
-logger = logging.getLogger('shop')
 
 
 def search(request) -> tuple:
