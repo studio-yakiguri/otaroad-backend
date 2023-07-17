@@ -19,6 +19,7 @@ DATABASES = db_data
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
     'https://dev.subculture-map-frontend.pages.dev',
-    'http://127.0.0.1:8000/*'
-    'http://100.107.194.104:9500/*'
+    'http://127.0.0.1:8000/*',
+    'http://100.107.194.104:9500/*',
+    'https://beta.otaroad.party'
 ]
