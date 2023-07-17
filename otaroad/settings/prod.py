@@ -1,7 +1,7 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104"]
 
 # Debug Options
 DEBUG = False
@@ -19,5 +19,6 @@ DATABASES = db_data
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
     'https://subculture-map-frontend.pages.dev',
-    'http://127.0.0.1:8000'
+    'https://map.otaroad.party',
+    'http://127.0.0.1:8000',
 ]
