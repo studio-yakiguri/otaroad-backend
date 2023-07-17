@@ -4,7 +4,7 @@ from .util import get_secure_data
 ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104"]
 
 # Debug Options
-DEBUG = True
+DEBUG = False
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

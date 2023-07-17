@@ -18,6 +18,8 @@ from .util import get_secure_data
 
 from django.core.exceptions import ImproperlyConfigured
 
+from datetime import datetime
+
 import mimetypes
 
 # CSS Broken FIX
@@ -30,9 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# Log Directory Generate
-if 'logs' not in os.listdir(BASE_DIR):
-    os.mkdir(f'{BASE_DIR}/logs')
+# Toady Datetime
+today_date = datetime.now.strftime('%Y-%m-%d')
 
 # Secure Directory Generate
 if '.secure' not in os.listdir(BASE_DIR):
@@ -198,7 +199,7 @@ LOGGING = {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / 'logs/server.log',
+            'filename': BASE_DIR / f'logs/{today_date}.log',
             'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
             'formatter': 'standard',
@@ -210,13 +211,9 @@ LOGGING = {
             'level': 'INFO',
         },
         'django.server': {
-            'handlers': ['django.server', 'file'],
+            'handlers': ['django.server'],
             'level': 'INFO',
             'propagate': False,
-        },
-        'shop': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
         },
     }
 }
