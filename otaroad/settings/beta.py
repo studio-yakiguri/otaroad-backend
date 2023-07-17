@@ -16,6 +16,13 @@ if db_data['default'] == "":
 
 DATABASES = db_data
 
+# Application definition
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ]
+}
+
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
     'https://dev.subculture-map-frontend.pages.dev',
