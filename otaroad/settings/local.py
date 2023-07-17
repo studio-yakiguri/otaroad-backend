@@ -15,5 +15,13 @@ DATABASES = {
     }
 }
 
+# Application definition
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer"
+    ]
+}
+
 # 허용할 Origin 추가
 CORS_ORIGIN_ALLOW_ALL = True
