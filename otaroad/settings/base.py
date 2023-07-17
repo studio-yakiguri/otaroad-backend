@@ -33,7 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # Toady Datetime
-today_date = datetime.now.strftime('%Y-%m-%d')
+now = datetime.now()
+today_date = now.strftime('%Y-%m-%d')
 
 # Secure Directory Generate
 if '.secure' not in os.listdir(BASE_DIR):
