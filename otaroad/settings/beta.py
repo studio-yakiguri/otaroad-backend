@@ -1,8 +1,7 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104",
-                 "sc0-nas.wahoo-in.ts.net:8443"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104", "sc0-nas.wahoo-in.ts.net:8443"]
 
 # Debug Options
 DEBUG = False
