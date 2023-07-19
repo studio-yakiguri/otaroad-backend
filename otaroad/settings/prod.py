@@ -1,7 +1,11 @@
 from .base import *
 from .util import get_secure_data
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104"]
+=======
+ALLOWED_HOSTS = ["127.0.0.1", "api.otaroad.party"]
+>>>>>>> 20eabba1b9d3f0f70a3b498c98222418d9e11658
 
 # Debug Options
 DEBUG = False
@@ -28,4 +32,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://subculture-map-frontend.pages.dev',
     'https://map.otaroad.party',
     'http://127.0.0.1:8000',
+<<<<<<< HEAD
+=======
+    'https://api.otaroad.party'
+>>>>>>> 20eabba1b9d3f0f70a3b498c98222418d9e11658
 ]

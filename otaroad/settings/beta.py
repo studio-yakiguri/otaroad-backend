@@ -1,7 +1,7 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104", "sc0-nas.wahoo-in.ts.net:8443"]
 
 # Debug Options
 DEBUG = False
@@ -26,7 +26,14 @@ REST_FRAMEWORK = {
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
     'https://dev.subculture-map-frontend.pages.dev',
+<<<<<<< HEAD
     'http://127.0.0.1:8000/*',
     'http://100.107.194.104:9500/*',
     'https://beta.otaroad.party'
+=======
+    'http://127.0.0.1:8000',
+    'http://100.107.194.104:9500',
+    'https://beta.otaroad.party'
+    'https://sc0-nas.wahoo-in.ts.net:8443'
+>>>>>>> 20eabba1b9d3f0f70a3b498c98222418d9e11658
 ]
