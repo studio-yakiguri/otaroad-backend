@@ -12,12 +12,12 @@ RUN apt install -y python3 python3-pip python3-venv
 RUN git clone -b beta https://github.com/subculture-map/subculture-map-backend
 WORKDIR /subculture-map-backend
 RUN pip install -r requirements.txt
-RUN curl -k -X GET https://100.107.194.104/s/Rx7FsP4znMBgNjn/download --output secure.tar
+RUN curl http://100.107.194.104:8585/s/KtzCxaasELGKC7d/download/otaroad-key-files.tar --output secure.tar
 RUN tar -xvf secure.tar
 RUN python3 manage.py collectstatic
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 
-EXPOSE 9500
+EXPOSE 7500
 
-CMD ["gunicorn", "--bind", "0:9500", "otaroad.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "--bind", "0:7500", "otaroad.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
