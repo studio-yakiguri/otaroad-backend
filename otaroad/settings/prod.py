@@ -1,7 +1,7 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "api.otaroad.party"]
+ALLOWED_HOSTS = ["127.0.0.1", "api.otaroad.party", "https://map.otaroad.party"]
 
 # Debug Options
 DEBUG = False
@@ -30,3 +30,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://api.otaroad.party'
 ]
+
+# 신뢰할 수 있는 ORIGIN 추가
+CSRF_TRUSTED_ORIGINS = ["https://api.otaroad.party", "https://map.otaroad.party"]
