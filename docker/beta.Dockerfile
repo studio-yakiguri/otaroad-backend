@@ -15,8 +15,6 @@ RUN pip install -r requirements.txt
 RUN curl http://100.107.194.104:8585/s/KtzCxaasELGKC7d/download/otaroad-key-files.tar --output secure.tar
 RUN tar -xvf secure.tar
 RUN python3 manage.py collectstatic
-RUN python3 manage.py makemigrations
-RUN python3 manage.py migrate
 
 EXPOSE 7500
 

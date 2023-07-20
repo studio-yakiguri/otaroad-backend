@@ -1,16 +1,16 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "api.otaroad.party"]
+ALLOWED_HOSTS = ["127.0.0.1", "api.otaroad.party", "https://map.otaroad.party"]
 
 # Debug Options
 DEBUG = False
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-db_data = get_secure_data('.secure/db.json')
+db_data = get_secure_data(".secure/db.json")
 
-if db_data['default'] == "":
+if db_data["default"] == "":
     raise ImproperlyConfigured(
         "Please input db.json in .secure/")
 
@@ -25,8 +25,11 @@ REST_FRAMEWORK = {
 
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
-    'https://subculture-map-frontend.pages.dev',
-    'https://map.otaroad.party',
-    'http://127.0.0.1:8000',
-    'https://api.otaroad.party'
+    "https://subculture-map-frontend.pages.dev",
+    "https://map.otaroad.party",
+    "http://127.0.0.1:8000",
+    "https://api.otaroad.party"
 ]
+
+# 신뢰할 수 있는 ORIGIN 추가
+CSRF_TRUSTED_ORIGINS = ["https://api.otaroad.party", "https://map.otaroad.party"]
