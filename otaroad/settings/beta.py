@@ -1,7 +1,8 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104", "sc0-nas.wahoo-in.ts.net", "beta.otaroad.party"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104",
+                 "sc0-nas.wahoo-in.ts.net", "beta.otaroad.party"]
 
 # Debug Options
 DEBUG = False
@@ -18,9 +19,12 @@ DATABASES = db_data
 
 # Application definition
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-    ]
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
 
 # 허용할 Origin 추가
@@ -33,4 +37,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # 신뢰할 수 있는 ORIGIN 추가
-CSRF_TRUSTED_ORIGINS = ["https://sc0-nas.wahoo-in.ts.net", "https://beta.otaroad.party"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://sc0-nas.wahoo-in.ts.net",
+    "https://beta.otaroad.party",
+]
