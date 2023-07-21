@@ -30,11 +30,11 @@ REST_FRAMEWORK = {
 # 허용할 Origin 추가
 CORS_ALLOWED_ORIGINS = [
     "https://dev.subculture-map-frontend.pages.dev",
-    "http://127.0.0.1:8000",
+    "http://127.0.0.1:3000",
     "http://100.107.194.104:7500",
     "https://beta.otaroad.party",
     "https://sc0-nas.wahoo-in.ts.net",
-    "https://sc0-nas.wahoo-in.ts.net/swagger"
+    "https://sc0-nas.wahoo-in.ts.net/swagger",
 ]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -43,5 +43,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 CSRF_TRUSTED_ORIGINS = [
     "https://sc0-nas.wahoo-in.ts.net",
     "https://beta.otaroad.party",
-    "https://sc0-nas.wahoo-in.ts.net/swagger"
+    "https://sc0-nas.wahoo-in.ts.net/swagger",
+    "http://127.0.0.1:3000",
 ]
