@@ -45,7 +45,7 @@ def search(request) -> tuple:
     if request.method == "POST":
         name: str = request.data['name']
         location: str = request.data['location']
-        shoptype: list = request.data.get['shopType']
+        shoptype: list = request.data['shopType']
 
     # 필터링 옵션 적용
     search_option = Q()
