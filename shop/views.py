@@ -37,15 +37,15 @@ def search(request) -> tuple:
     location: str = ''
     shoptype: str = ''
 
-    if bool(request.GET) is True:
+    if request.method == "GET":
         name: str = request.GET.get('name', None)
         location: str = request.GET.get('location', None)
-        shoptype: str = request.GET.get('shopType', None)
+        shoptype: list = request.GET.get('shopType', None)
 
-    if bool(request.POST) is True:
-        name: str = request.POST.get('name', None)
-        location: str = request.POST.get('location', None)
-        shoptype: str = request.POST.get('shopType', None)
+    if request.method == "POST":
+        name: str = request.data['name']
+        location: str = request.data['location']
+        shoptype: list = request.data.get['shopType']
 
     # 필터링 옵션 적용
     search_option = Q()
@@ -60,7 +60,7 @@ def search(request) -> tuple:
 
     # 매장 형태 옵션 있는 경우
     if shoptype:
-        search_option.add(Q(shopType=shoptype), Q.AND)
+        search_option.add(Q(shopType__in=shoptype), Q.AND)
 
     queryset: QuerySet = ShopData.objects.filter(search_option).distinct()
 
