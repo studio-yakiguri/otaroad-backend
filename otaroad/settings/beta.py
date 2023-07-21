@@ -33,11 +33,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://100.107.194.104:7500",
     "https://beta.otaroad.party",
-    "https://sc0-nas.wahoo-in.ts.net"
+    "https://sc0-nas.wahoo-in.ts.net",
+    "https://sc0-nas.wahoo-in.ts.net/swagger/"
 ]
 
 # 신뢰할 수 있는 ORIGIN 추가
 CSRF_TRUSTED_ORIGINS = [
     "https://sc0-nas.wahoo-in.ts.net",
     "https://beta.otaroad.party",
+    "https://sc0-nas.wahoo-in.ts.net/swagger/"
 ]
