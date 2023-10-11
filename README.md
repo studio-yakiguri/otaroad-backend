@@ -1,4 +1,4 @@
-# subculture-map-backend
+# otaroad-map-backend
 맵 데이터 저장, 로드 관련 백엔드 서버
 
 ## Backend Info
