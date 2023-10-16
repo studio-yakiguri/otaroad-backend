@@ -42,7 +42,8 @@ schema_view = get_schema_view(
 
 # URL Setting
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('django-admin/', admin.site.urls),
+    path('otaroad-admin/', views.otaroad_admin),
     path('v1/shop/', views.ShopList.as_view()),
     path('v1/shop/<int:id>', views.ShopInfo.as_view()),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',

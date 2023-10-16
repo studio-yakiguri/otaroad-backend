@@ -1,0 +1,316 @@
+{% load static %}
+
+<html lang="ko" data-bs-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 부트스트랩 css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+  <style>
+    @font-face {
+      font-family: 'neodgm';
+      src: url('../static/fonts/neodgm.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    #nav-title {
+      font-family: 'neodgm';
+      font-size: 2.5em;
+    }
+
+    table {
+      width: auto;
+    }
+  </style>
+
+  <title>OTAROAD: ADMIN</title>
+</head>
+
+<body>
+  <!-- 어드민 페이지 navibar -->
+  <nav class="navbar navbar-expand-lg bg-dark border-body">
+    <div class="container-fluid">
+      <img src="{% static 'imgs/dot.png' %}" alt="Bootstrap" width="40" height="40"
+        onClick="window.location.reload()" />
+      <a class="navbar-brand" id="nav-title" onClick="window.location.reload()">OTAROAD: ADMIN</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
+        aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation"><span
+          class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="" class="nav-link">맵 데이터 관리</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#workingModal">행사 데이터 관리</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#workingModal">API-TEST</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#workingModal">서버 LOG</a>
+          </li>
+          <li class="nav-item">
+            <a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#workingModal">통계</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SUB NAV Bar-->
+  <ul class="nav justify-content-end pe-3">
+    <li class="nav-item">
+      <button type="button" class="btn btn-primary" data-bs-toggle="dataAddModal"
+        data-bs-target="#dataAddModal">추가</button>
+    </li>
+    <li class="nav-item">
+      <button type="button" class="btn btn-danger" data-bs-toggle="dataRemoveModal"
+        data-bs-target="#dataRemoveModal">제거</button>
+    </li>
+    <li class="nav-item">
+      <form class="d-flex" id="search-form" role="search" onsubmit="return false;">
+        <div class="input-group" data-bs-theme="light">
+          <span class="input-group-text" id="search-icon">
+            <img src="{% static '/icons/search.svg' %}">
+          </span>
+          <input type="search" class="form-control me-6" id="search-input" placeholder="매장명 검색 (없으면 전체)"
+            aria-label="Search" name="keyword">
+        </div>
+        <button class="btn btn-primary" type="submit" onclick="request()" style="display: none;">Search</button>
+      </form>
+    </li>
+  </ul>
+
+  <!--MAP DataList-->
+  <div class="container-fluid" id="map-data-list" style="display: block;">
+    <div class="row justify-content-center align-items-center g-2">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table align-middle" id="map-data-table">
+            <thead class="text-center">
+              <tr>
+                <th scope="col">매장ID</th>
+                <th scope="col">매장명</th>
+                <th scope="col">지역</th>
+                <th scope="col">주소</th>
+                <th scope="col">매장종류</th>
+                <th scope="col">검색태그</th>
+                <th scope="col">데이터 설정</th>
+                <th scope="col">선택</th>
+              </tr>
+            </thead>
+            <tbody class="text-center" id="map-data-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Map DataAdd Modal-->
+  <div class="modal fade" id="dataAddModal" tabindex="-1" aria-labelledby="dataAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dataAddModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Map DataEdit Modal-->
+  <div class="modal fade" id="dataEditModal" tabindex="-1" aria-labelledby="dataEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dataEditModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Map DataRemove Modal-->
+  <div class="modal fade" id="dataRemoveModal" tabindex="-1" aria-labelledby="dataRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="dataRemoveModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--API TEST-->
+
+  <!--변수 설정-->
+  <script>
+    // 백엔드 서버 주소 설정
+    const betaUrl = "https://sc0-nas.wahoo-in.ts.net";
+    const url = window.location.href != betaUrl
+      ? window.location.href.slice(0, -14) + "v1/shop/" : betaUrl + "/v1/shop/";
+
+    // 매장 리스트 
+    const locationList = [];
+
+    // shopType 리스트
+    const shopTypeList = [];
+
+    // shopLocationType 리스트
+    const shopList = [];
+  </script>
+
+  <!-- FETCH HTTP.POST -->
+  <script>
+    Promise.all([
+      fetch(url)
+        .then()
+        .catch()
+        .then()]
+    )
+
+    function handleRequest(request) { }
+
+
+  </script>
+
+  <!-- FETCH HTTP.GET -->
+  <script>
+    Promise.all([
+      fetch(url)
+        .then(handleResponse)
+        .catch(handleError)
+        .then(handleData)]
+    )
+
+    // 요청 핸들링
+    function handleResponse(response) {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+        alert("Network response was not ok")
+      }
+      return response.json();
+    }
+
+    // 성공 핸들링
+    function handleData(data) {
+
+      // 매장 데이터 분리
+      const locationList = data.location_list;
+
+      // shopType 데이터 분리
+      const shopTypeList = data.shoptype_list;
+
+      // shopLocationType 데이터 분리
+      const shopList = data.shop_list;
+
+      // table에 데이터 추가
+      const tbody = document.getElementById('map-data-tbody');
+
+      // TABLE에 데이터 삽입
+      shopList.forEach((shop) => {
+        const newRow = tbody.insertRow();
+
+        // cell 선언
+        const cellId = newRow.insertCell();
+        const cellName = newRow.insertCell();
+        const cellLocation = newRow.insertCell();
+        const cellAddress = newRow.insertCell();
+        const cellShopType = newRow.insertCell();
+        const cellTagType = newRow.insertCell();
+        const cellDataSetting = newRow.insertCell();
+        const cellSelection = newRow.insertCell();
+
+        // 매장주소 길이 조정 해서 추가
+        const shopAddress = shop.address;
+        const shortAddress = shopAddress.length > 40
+          ? shopAddress.slice(0, 50) + ' ...' : shopAddress;
+
+        // text 노드 추가
+        const textId = document.createTextNode(shop.id);
+        const textName = document.createTextNode(shop.name);
+        const textLocation = document.createTextNode(locationList[shop.location].location);
+        const textAddress = document.createTextNode(shortAddress);
+        const textTagType = document.createTextNode("TagType");
+        const textDataEdit = document.createTextNode("수정");
+        const textDataRemove = document.createTextNode("제거");
+
+        // 데이터 수정 버튼 추가
+        const dataEditElement = document.createElement('button');
+        dataEditElement.setAttribute('type', 'button');
+        dataEditElement.setAttribute('class', 'btn  btn-outline-success btn-sm');
+        dataEditElement.setAttribute('data-bs-toogle', 'dataEditModal');
+        dataEditElement.setAttribute('data-bs-target', '#dataEditModal');
+
+        // 데이터 제거 버튼 추가
+        const dataRemoveElement = document.createElement('button');
+        dataRemoveElement.setAttribute('type', 'button')
+        dataRemoveElement.setAttribute('class', 'btn  btn-outline-danger btn-sm');
+        dataRemoveElement.setAttribute('data-bs-toogle', 'dataRemoveModal');
+        dataRemoveElement.setAttribute('data-bs-target', '#dataRemoveModal');
+
+        dataEditElement.appendChild(textDataEdit);
+        dataRemoveElement.appendChild(textDataRemove);
+
+        // cell에 element 추가
+        cellId.appendChild(textId);
+        cellName.appendChild(textName);
+        cellLocation.appendChild(textLocation);
+        cellAddress.appendChild(textAddress);
+        cellTagType.appendChild(textTagType);
+        cellDataSetting.appendChild(dataEditElement);
+        cellDataSetting.appendChild(dataRemoveElement);
+
+        // 매장 태그 추가
+        for (let i = 0; i < shop.shopType.length; i++) {
+          const shopTypeNumber = shop.shopType[i];
+          const shopTypeName = i < shop.shopType.length - 1
+            ? shopTypeList[shopTypeNumber].type + ", " : shopTypeList[shopTypeNumber].type;
+          const textShopType = document.createTextNode(shopTypeName);
+          cellShopType.appendChild(textShopType);
+        }
+
+      });
+
+    }
+
+    // 에러 핸들링
+    function handleError(error) {
+      alert(error);
+    }
+
+  </script>
+
+
+</body>
+
+</html>
