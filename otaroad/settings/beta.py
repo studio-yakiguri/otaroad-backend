@@ -2,7 +2,7 @@ from .base import *
 from .util import get_secure_data
 
 ALLOWED_HOSTS = ["127.0.0.1", "100.88.98.138",
-                 "https://otaroad-oracle-cloud.wahoo-in.ts.net/", "beta.otaroad.party"]
+                 "otaroad-oracle-cloud.wahoo-in.ts.net", "beta.otaroad.party"]
 
 # Debug Options
 DEBUG = False
