@@ -1,8 +1,8 @@
 from .base import *
 from .util import get_secure_data
 
-ALLOWED_HOSTS = ["127.0.0.1", "100.107.194.104",
-                 "sc0-nas.wahoo-in.ts.net", "beta.otaroad.party"]
+ALLOWED_HOSTS = ["127.0.0.1", "100.88.98.138",
+                 "https://otaroad-oracle-cloud.wahoo-in.ts.net/", "beta.otaroad.party"]
 
 # Debug Options
 DEBUG = False
@@ -31,18 +31,18 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "https://dev.subculture-map-frontend.pages.dev",
     "http://127.0.0.1:3000",
-    "http://100.107.194.104:7500",
+    "http://100.88.98.138:7500",
     "https://beta.otaroad.party",
-    "https://sc0-nas.wahoo-in.ts.net",
-    "https://sc0-nas.wahoo-in.ts.net/swagger",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/swagger",
 ]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # 신뢰할 수 있는 ORIGIN 추가
 CSRF_TRUSTED_ORIGINS = [
-    "https://sc0-nas.wahoo-in.ts.net",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/",
     "https://beta.otaroad.party",
-    "https://sc0-nas.wahoo-in.ts.net/swagger",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/swagger",
     "http://127.0.0.1:3000",
 ]
