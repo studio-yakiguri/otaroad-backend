@@ -1,5 +1,6 @@
 # Django Import
 from django.db.models import Q
+from django.shortcuts import render
 
 # rest_framework Import
 from rest_framework import status
@@ -65,6 +66,9 @@ def search(request) -> tuple:
     queryset: QuerySet = ShopData.objects.filter(search_option).distinct()
 
     return queryset, bool(queryset)
+
+
+# View 영역
 
 
 class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
@@ -146,3 +150,7 @@ class ShopInfo(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
 
     def put(self, request, *args, **kwargs) -> Response:
         return self.update(request, *args, **kwargs)
+
+
+def otaroad_admin(request):
+    return render(request, 'shop/otaroad-admin-index.html')
