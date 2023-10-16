@@ -2,7 +2,8 @@ from .base import *
 from .util import get_secure_data
 
 ALLOWED_HOSTS = ["127.0.0.1", "100.88.98.138",
-                 "otaroad-oracle-cloud.wahoo-in.ts.net", "beta.otaroad.party"]
+                 "otaroad-oracle-cloud.wahoo-in.ts.net", "beta.otaroad.party"
+                 ]
 
 # Debug Options
 DEBUG = False
@@ -35,6 +36,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://beta.otaroad.party",
     "https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/",
     "https://otaroad-oracle-cloud.wahoo-in.ts.net/swagger",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/redoc",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/django-admin/",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/otaroad-admin/",
 ]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -44,5 +48,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/",
     "https://beta.otaroad.party",
     "https://otaroad-oracle-cloud.wahoo-in.ts.net/swagger",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/redoc",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/otaroad-admin/",
+    "https://otaroad-oracle-cloud.wahoo-in.ts.net/django-admin/",
     "http://127.0.0.1:3000",
 ]
