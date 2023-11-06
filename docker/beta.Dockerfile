@@ -2,7 +2,7 @@ FROM python:3.11.4-slim-bookworm
 LABEL name='otaroad-backend'
 LABEL version="0.0.1"
 LABEL builder="LeeDongHyeong"
-LABEL builddate="2023.07.16-05:04:40"
+LABEL builddate="2023.10.16-20:49:11"
 LABEL env="beta"
 LABEL description="Docker image for Otaroad Backend for BETA"
 

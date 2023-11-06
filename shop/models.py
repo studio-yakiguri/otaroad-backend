@@ -32,22 +32,6 @@ class Location(models.Model):
         db_table = 'Location'
 
 
-class GenderStyle(models.Model):
-    gender = models.CharField(
-        max_length=50,
-        help_text="매장이 취급하는 상품요소(여성향, 남성향) 입력"
-    )
-
-    def __str__(self) -> str:
-        """
-        Display title instead of ID
-        """
-        return self.gender
-
-    class Meta:
-        db_table = 'GenderStyle'
-
-
 class ShopData(models.Model):
     '''Contained info of ShopData
         * shopname
@@ -92,6 +76,55 @@ class ShopData(models.Model):
         help_text="매장 운영시간 입력"
     )
 
+    # 일요일 매장 운영시간
+    sun_time = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="일요일 매장 운영시간 입력"
+    )
+
+    # 월요일 매장 운영시간
+    mon_time = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="월요일 매장 운영시간 입력"
+    )
+
+    # 화요일 매장 운영시간
+    tue_time = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="화요일 매장 운영시간 입력"
+    )
+
+    # 수요일 매장 운영시간
+    wed_time = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="수요일 매장 운영시간 입력"
+    )
+
+    # 목요일 매장 운영시간
+    thrTime = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="목요일 매장 운영시간 입력"
+    )
+
+    # 금요일 매장 운영시간
+    friTime = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="금요일 매장 운영시간 입력"
+    )
+
+    # 토요일 매장 운영시간
+    satTime = models.CharField(
+        max_length=60,
+        null=True,
+        help_text="토요일 매장 운영시간 입력"
+    )
+
     # 매장 상세정보
     content = models.TextField(
         help_text="매장 상세정보(판매굿즈, 주차가능여부 등등) 입력"
@@ -111,7 +144,7 @@ class ShopData(models.Model):
         help_text="매장 이메일 주소 입력 -> 'example@email.com'"
     )
 
-    # 매장 홈페이지 주소
+    # 매장 전화번호
     phone = models.CharField(
         max_length=100,
         blank=True,
@@ -127,21 +160,31 @@ class ShopData(models.Model):
         help_text="매장 홈페이지 URL 입력 -> 'https://example.com'"
     )
 
-    # 매장 트위터 주소
+    # 매장 X(트위터) 주소
     twitter = models.CharField(
         max_length=300,
         blank=True,
         null=True,
-        help_text="트위터 URL 입력 -> 'https://twitter.com/트위터ID'"
+        help_text="X(트위터) URL 입력 -> 'https://twitter.com/트위터ID'"
     )
 
-    # 매장의 성향 N:M
-    genderStyle = models.ManyToManyField(
-        GenderStyle,
-        help_text="매장 성별 성향 선택"
+    # 매장 인스타 주소
+    instagram = models.CharField(
+        max_length=300,
+        blank=True,
+        null=True,
+        help_text="인스타그램 URL 입력 -> 'https://www.instagram.com/인스타그램ID/'"
     )
 
-    # 매장 사진
+    # 매장 블로그 주소
+    blog = models.CharField(
+        max_length=300,
+        blank=True,
+        null=True,
+        help_text="blog URL 입력 -> 'https://blog.naver.com/블로그ID'"
+    )
+
+    # 매장 전면 사진
     photo = models.ImageField(
         blank=True,
         null=True,

@@ -24,6 +24,18 @@ from .module.kakao import Geocoding as KakaoGeo
 # requests exception import
 from requests import exceptions
 
+# Python Interface
+from dataclasses import dataclass
+
+# interface for Map Data
+
+
+@dataclass
+class MapData:
+    name: str
+    location: list
+    shoptype: list
+
 
 def search(request) -> tuple:
     """query 검색하는 함수
