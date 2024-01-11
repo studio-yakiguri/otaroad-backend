@@ -77,28 +77,28 @@ class ShopData(models.Model):
     )
 
     # 일요일 매장 운영시간
-    sun_time = models.CharField(
+    sunTime = models.CharField(
         max_length=60,
         null=True,
-        help_text="일요일 매장 운영시간 입력"
+        help_text="일요일 매장 운영시간 입력 "
     )
 
     # 월요일 매장 운영시간
-    mon_time = models.CharField(
+    monTime = models.CharField(
         max_length=60,
         null=True,
         help_text="월요일 매장 운영시간 입력"
     )
 
     # 화요일 매장 운영시간
-    tue_time = models.CharField(
+    tueTime = models.CharField(
         max_length=60,
         null=True,
         help_text="화요일 매장 운영시간 입력"
     )
 
     # 수요일 매장 운영시간
-    wed_time = models.CharField(
+    wedTime = models.CharField(
         max_length=60,
         null=True,
         help_text="수요일 매장 운영시간 입력"
