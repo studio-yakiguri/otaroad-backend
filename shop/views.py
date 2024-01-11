@@ -16,7 +16,6 @@ from .models import ShopData, Location, ShopType
 # type hint import
 from django.db.models.query import QuerySet
 from django.http import QueryDict
-
 # Geocode Module import
 from .module.naver import Geocoding as NaverGeo
 from .module.kakao import Geocoding as KakaoGeo
@@ -27,9 +26,8 @@ from requests import exceptions
 # Python Interface
 from dataclasses import dataclass
 
+
 # interface for Map Data
-
-
 @dataclass
 class MapData:
     name: str
@@ -96,7 +94,8 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
         response: dict = {
             "location_list": location_list.values(),
             "shoptype_list": shoptype_list.values(),
-            "shop_list": shop_list.data
+            "shop_list": shop_list.data,
+            "result_count": len(shop_list.data)
         }
 
         return Response(response)
