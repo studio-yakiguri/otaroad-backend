@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ShopData, ShopType, Location, GenderStyle
+from .models import ShopData, ShopType, Location
 
 
 @admin.register(ShopData)
@@ -23,4 +23,3 @@ class ShopDataAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(ShopType)
 admin.site.register(Location)
-admin.site.register(GenderStyle)

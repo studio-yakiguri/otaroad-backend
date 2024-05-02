@@ -63,8 +63,8 @@ class APIServerCheck:
             return result
 
         # Setting Variables
-        now: str = datetime.now()
-        req_time: str = datetime.strptime(
+        now: datetime = datetime.now()
+        req_time: datetime = datetime.strptime(
             self.server_status['req_time'], '%Y/%m/%d-%H:%M:%S')
 
         # compare requested time
