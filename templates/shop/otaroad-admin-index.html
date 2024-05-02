@@ -7,8 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- 부트스트랩 css -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-  <!-- bootstrap js -->
-  <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
   <style>
     @font-face {
@@ -65,7 +63,7 @@
           <img src="{% static '/icons/arrow-clockwise.svg' %}">
           새로고침
         </button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dataAddModal">추가</button>
+        <button type="button" class="btn btn-primary" onclick="createShopInfo()">추가</button>
       </div>
     </li>
     <li class="nav-item">
@@ -78,7 +76,7 @@
             <input type="search" class="form-control me-6" id="search-input" placeholder="매장명 검색 (없으면 전체)"
               aria-label="Search" name="keyword">
           </div>
-          <button class="btn btn-primary" type="submit" onclick="request()" style="display: none;">Search</button>
+          <button class="btn btn-primary" type="submit" onclick="search()" style="display: none;">Search</button>
         </form>
       </div>
     </li>
@@ -97,8 +95,6 @@
                 <th scope="col">지역</th>
                 <th scope="col">주소</th>
                 <th scope="col">매장종류</th>
-                <th scope="col">데이터 설정</th>
-                <th scope="col">선택</th>
               </tr>
             </thead>
             <tbody class="text-center" id="map-data-tbody">
@@ -130,7 +126,7 @@
   </div>
 
   <!-- Map DataAdd Modal -->
-  <div class="modal fade" id="dataAddModal" tabindex="-1" aria-labelledby="dataAddModalLabel" aria-hidden="true">
+  <div class="modal fade" id="dataAddModal" tabindex="-1" aria-labelledby="dataAddModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
@@ -138,10 +134,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          <div class="container" id="dataAddModal-Body-Container">
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">저장하기</button>
+          <button type="submit" class="btn btn-primary" form="dataAddModalForm" onclick="addShopInfo()" data-bs-dismiss="modal">저장하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">저장하지 않고 닫기</button>
         </div>
       </div>
@@ -186,302 +183,12 @@
     </div>
   </div>
 
-  <!--API TEST-->
-
-  <!--변수 설정-->
-  <script>
-    // 백엔드 서버 주소 설정
-    const betaUrl = "https://sc0-nas.wahoo-in.ts.net";
-    const url = window.location.href != betaUrl
-      ? window.location.href.slice(0, -14) + "v1/shop/" : betaUrl + "/v1/shop/";
-
-    // 매장리스트 MAP
-    let shopList = new Map();
-
-    // shopType MAP
-    let shopTypeList = new Map();
-
-    // shopLocationType MAP
-    let locationList = new Map();
-
-  </script>
-
-
-  <!-- Util Function -->
-  <script>
-
-    /* table element에 데이터가 담긴 row 추가 하는 함수
-      shop: 매장1개의 정보가 json형태로 담긴 파라미터
-    */
-    function dataInsertToTable(shop) {
-
-      // tbody 엘리먼트 찾기
-      const tbody = document.getElementById('map-data-tbody');
-
-      // row 객체 만들고 tr 넣기
-      const newRow = tbody.insertRow();
-      newRow.setAttribute('onclick', 'loadShopInfo(' + shop.id + ')');
-
-      // cell 선언
-      const cellId = newRow.insertCell();
-      const cellName = newRow.insertCell();
-      const cellLocation = newRow.insertCell();
-      const cellAddress = newRow.insertCell();
-      const cellShopType = newRow.insertCell();
-      const cellDataSetting = newRow.insertCell();
-      const cellSelection = newRow.insertCell();
-
-      // 매장주소 길이 조정 해서 추가
-      const shopAddress = shop.address;
-      const shortAddress = shopAddress.length > 40
-        ? shopAddress.slice(0, 70) + ' ...' : shopAddress;
-
-      // text 노드 추가
-      const textId = document.createTextNode(shop.id);
-      const textName = document.createTextNode(shop.name);
-      const textLocation = document.createTextNode(locationList.get(shop.location).location);
-      const textAddress = document.createTextNode(shortAddress);
-      const textDataEdit = document.createTextNode("수정");
-      const textDataRemove = document.createTextNode("제거");
-
-      // 데이터 조작 버튼 그룹 추가
-      const dataButtonGroupElement = document.createElement('div');
-      dataButtonGroupElement.setAttribute('class', 'btn-group');
-      dataButtonGroupElement.setAttribute('role', 'group');
-
-      // 데이터 수정 버튼 추가
-      const dataEditElement = document.createElement('button');
-      dataEditElement.setAttribute('type', 'button');
-      dataEditElement.setAttribute('class', 'btn  btn-success btn-sm');
-      dataEditElement.setAttribute('data-bs-toogle', 'modal');
-      dataEditElement.setAttribute('data-bs-target', '#dataEditModal');
-      dataEditElement.appendChild(textDataEdit);
-      dataButtonGroupElement.appendChild(dataEditElement);
-
-      // 데이터 제거 버튼 추가
-      const dataRemoveElement = document.createElement('button');
-      dataRemoveElement.setAttribute('type', 'button')
-      dataRemoveElement.setAttribute('class', 'btn  btn-danger btn-sm');
-      dataRemoveElement.setAttribute('data-bs-toogle', 'modal');
-      dataRemoveElement.setAttribute('data-bs-target', '#dataRemoveModal');
-      dataRemoveElement.appendChild(textDataRemove);
-      dataButtonGroupElement.appendChild(dataRemoveElement);
-
-      // cell에 element 추가
-      cellId.appendChild(textId);
-      cellName.appendChild(textName);
-      cellLocation.appendChild(textLocation);
-      cellAddress.appendChild(textAddress);
-      cellDataSetting.appendChild(dataButtonGroupElement);
-
-      // 매장 태그 추가
-      for (let i = 0; i < shop.shopType.length; i++) {
-        const shopTypeNumber = shop.shopType[i];
-        const shopTypeName = i < shop.shopType.length - 1
-          ? shopTypeList.get(shopTypeNumber).type + ", " : shopTypeList.get(shopTypeNumber).type;
-        const textShopType = document.createTextNode(shopTypeName);
-        cellShopType.appendChild(textShopType);
-      }
-    }
-
-
-    /* row 하나 클릭했을 때 매장 정보를 모달로 불러오는 함수
-      shopId: response 받은 데이터 내의 shoplist 보면 id라고 적힌 것
-    */
-    function loadShopInfo(shopId) {
-
-      // 매장 ID로 해당하는 매장정보 가져오기
-      const shopData = shopList.get(shopId);
-
-      // 모달 표시
-      const dataInfoModal = new bootstrap.Modal('#dataInfoModal');
-      dataInfoModal.show();
-
-      // 모달 라벨 설정
-      const dataInfoModalLabel = document.querySelector("#dataInfoModalLabel");
-      dataInfoModalLabel.innerText = "#" + shopId + " '" + shopData.name + "' 매장정보";
-
-      // modal body 안에 있는 input group text 안에 데이터 넣기
-      const dataInfoModalBodyContainer = document.getElementById("dataInfoModal-Body-Container");
-      dataInfoModalBodyContainer.innerText = ""; // 내용 초기화
-
-      // object의 Key만큼 반복
-      for (let i = 0; i < Object.keys(shopData).length; i++) {
-        const objectKeyName = Object.keys(shopData)[i]
-
-        const inputGroup = document.createElement("div");
-        inputGroup.setAttribute("class", "input-group mb-3");
-
-        const span = document.createElement("span");
-        const spanText = document.createTextNode(objectKeyName);
-        span.setAttribute("class", "input-group-text");
-        span.setAttribute("id", "input-disabled-" + objectKeyName);
-        span.appendChild(spanText);
-
-        const input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.setAttribute("class", "form-control");
-        input.setAttribute("disabled", "");
-
-        const textarea = document.createElement("textarea");
-
-        switch (objectKeyName) {
-
-          case "workTime":
-            textarea.setAttribute("class", "form-control");
-            textarea.setAttribute("rows", "3");
-            textarea.setAttribute("disabled", "");
-
-            const worktimeText = document.createTextNode(shopData[objectKeyName]);
-            textarea.appendChild(worktimeText);
-
-            inputGroup.appendChild(span);
-            inputGroup.appendChild(textarea);
-            break;
-
-          case "content":
-            textarea.setAttribute("class", "form-control");
-            textarea.setAttribute("rows", "7");
-            textarea.setAttribute("disabled", "");
-
-            const contentText = document.createTextNode(shopData[objectKeyName]);
-            textarea.appendChild(contentText);
-
-            inputGroup.appendChild(span);
-            inputGroup.appendChild(textarea);
-            break;
-
-          case "location":
-            input.setAttribute("value", locationList.get(shopData["location"]).location);
-            inputGroup.appendChild(span);
-            inputGroup.appendChild(input);
-            break;
-
-          case "shopType":
-            let tagText = "";
-            const shopTypeLength = shopData["shopType"].length;
-            for (let i = 0; i < shopTypeLength; i++) {
-              let typenum = shopData["shopType"][i];
-              i === shopTypeLength - 1 ? tagText += shopTypeList.get(typenum).type : tagText += shopTypeList.get(typenum).type + ", "
-            }
-            input.setAttribute("value", tagText);
-            inputGroup.appendChild(span);
-            inputGroup.appendChild(input);
-            break;
-
-          default:
-            input.setAttribute("value", shopData[objectKeyName] == null ? "정보없음" : shopData[objectKeyName]);
-            inputGroup.appendChild(span);
-            inputGroup.appendChild(input);
-        }
-
-        dataInfoModalBodyContainer.appendChild(inputGroup);
-      }
-
-    }
-
-
-    /* list 타입을 Map 타입으로 변환하는 함수
-      listTypeData: 데이터가 들어있는 list type의 데이터를 넣으면 됨
-      type: response받은 데이터가 뭔지??? 
-        -> 위치들: location, 매장데이터: shop, 매장종류: type
-        -> 위의 3가지 이외의 값이 들어갈 경우 뿜뿜 예정
-    */
-    function listToMap(listTypeData, type) {
-
-      if (type !== "location" && type !== "shoptype" && type !== "shoplist") {
-        throw new Error("Invalid Response Data Type")
-      }
-
-      let mapTypeData = new Map();
-      listTypeData.forEach(data => {
-        switch (type) {
-          case "location": mapTypeData.set(data.id, data.location);
-          case "shoptype": mapTypeData.set(data.id, data.type);
-          case "shoplist": mapTypeData.set(data.id, data);
-        }
-      });
-
-      return mapTypeData;
-    }
-
-    // 테이블 데이터 다시 요청 하는 함수
-    function reloadShopList() {
-
-      // tbody 엘리먼트 찾기
-      const tbody = document.getElementById('map-data-tbody');
-
-      // tbody안에 있는 cell들 모두제거
-      tbody.innerText = "";
-      
-      // 리퀘스트 요청해서 새로운 데이터 받아오기
-      request()
-    }
-
-    // 테이블 데이터 수정 후 request 하는 함수
-    function editShopInfo(shop_id) {
-
-    }
-
-    // 테이블 데이터 제거 후 request 하는 함수
-    function deleteShopInfo(shop_id) {
-
-    }
-  </script>
-
-
-  <!-- REQUEST 관련 함수들 -->
-  <script>
-
-    // Request 요청 함수
-    function request() {
-      Promise.all([
-      fetch(url)
-        .then(handleResponse)
-        .catch(handleError)
-        .then(handleData)]
-      )
-    }
-
-    // 요청 핸들링
-    function handleResponse(response) {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-        alert("Network response was not ok")
-      }
-      return response.json();
-    }
-
-    // 성공 핸들링
-    function handleData(data) {
-
-      // 매장 데이터 분리
-      locationList = listToMap(data.location_list, "location");
-
-      // shopType 데이터 분리
-      shopTypeList = listToMap(data.shoptype_list, "shoptype");
-
-      // shopLocationType 데이터 분리
-      shopList = listToMap(data.shop_list, "shoplist");
-
-      // TABLE에 데이터 삽입
-      shopList.forEach((shop) => {
-        dataInsertToTable(shop);
-      });
-
-    }
-
-    // 에러 핸들링
-    function handleError(error) {
-      alert(error);
-    }
-  </script>
-
-  <!-- REQUEST 초기 실행 -->
-  <script>
-    request();
-  </script>
-
+  <!-- bootstrap js import -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <!-- util js for otaroad admin import -->
+  <script type="text/javascript" src="{% static 'js/otaroad-admin-util.js' %}"></script>
+  <!-- request js for otaroad admin import -->
+  <script type="text/javascript" src="{% static 'js/otaroad-admin-request.js' %}"></script>
 </body>
 
 </html>
