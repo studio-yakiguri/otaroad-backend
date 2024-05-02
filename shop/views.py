@@ -6,8 +6,10 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
+from rest_framework.permissions import IsAdminUser
 
 # seriallizer & model Import
 from .serializers import ShopDataSerializer
@@ -16,6 +18,7 @@ from .models import ShopData, Location, ShopType
 # type hint import
 from django.db.models.query import QuerySet
 from django.http import QueryDict
+
 # Geocode Module import
 from .module.naver import Geocoding as NaverGeo
 from .module.kakao import Geocoding as KakaoGeo
@@ -90,12 +93,20 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
         shop_list = ShopList.serializer_class(queryset, many=True)
         location_list = Location.objects.all()
         shoptype_list = ShopType.objects.all()
+        shop_key_list: list = [key.name for key in ShopData._meta.get_fields()]
 
         response: dict = {
-            "location_list": location_list.values(),
-            "shoptype_list": shoptype_list.values(),
-            "shop_list": shop_list.data,
-            "result_count": len(shop_list.data)
+            "result": {
+                "location_list": location_list.values(),
+                "shoptype_list": shoptype_list.values(),
+                "shop_list": shop_list.data
+            },
+            "metadata": {
+                "api_version": "v1",
+                "data_update_date": "",
+                "shop_key_list": shop_key_list,
+                "result_count": len(shop_list.data)
+            }
         }
 
         return Response(response)
@@ -153,6 +164,7 @@ class ShopList(ListModelMixin, CreateModelMixin, GenericAPIView):
 
 class ShopInfo(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
     queryset = ShopData.objects.all()
+    permission_classes = [IsAdminUser]
     serializer_class = ShopDataSerializer
     lookup_field = 'id'
 
@@ -163,5 +175,7 @@ class ShopInfo(RetrieveModelMixin, UpdateModelMixin, GenericAPIView):
         return self.update(request, *args, **kwargs)
 
 
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
 def otaroad_admin(request):
     return render(request, 'shop/otaroad-admin-index.html')
