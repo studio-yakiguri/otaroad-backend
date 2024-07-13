@@ -44,7 +44,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # 신뢰할 수 있는 ORIGIN 추가
 CSRF_TRUSTED_ORIGINS = [
-    f'{SERVER_RELEASE_ADDR}/v1/shop/',
+    f'https://{SERVER_RELEASE_ADDR}/v1/shop/',
     'https://beta.otaroad.party',
     f'https://{SERVER_RELEASE_ADDR}/swagger',
     f'https://{SERVER_RELEASE_ADDR}/redoc',
