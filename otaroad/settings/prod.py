@@ -37,4 +37,5 @@ CORS_ALLOWED_ORIGINS = [
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # 신뢰할 수 있는 ORIGIN 추가
-CSRF_TRUSTED_ORIGINS = ["https://api.otaroad.party", "https://map.otaroad.party"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://api.otaroad.party", "https://map.otaroad.party"]
