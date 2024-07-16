@@ -38,6 +38,7 @@ CORS_ALLOWED_ORIGINS = [
     f'http://{SERVER_TAILSCALE_IP}:7500',
     'https://beta.otaroad.party',
     f'https://{SERVER_RELEASE_ADDR}',
+    'http://127.0.0.1:7500',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -55,4 +56,5 @@ CSRF_TRUSTED_ORIGINS = [
     f'http://{SERVER_TAILSCALE_IP}:7500/django-admin/',
     f'http://{SERVER_TAILSCALE_IP}/swagger',
     f'http://{SERVER_TAILSCALE_IP}/redoc',
+    'http://127.0.0.1:7500'
 ]
