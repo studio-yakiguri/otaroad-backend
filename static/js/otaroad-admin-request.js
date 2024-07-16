@@ -1,7 +1,7 @@
 /* otaroad.admin.request.js by LeeDongHyeong */
 
 // 백엔드 서버 주소 설정
-const url = "https://127.0.0.1:7500";
+const url = "https://127.0.0.1:7500/shop/v1";
 
 // 매장리스트 MAP
 let shopList = new Map();
