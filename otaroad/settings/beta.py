@@ -1,10 +1,11 @@
 from .base import *
 from .util import get_secure_data
+import socket
 
-SERVER_TAILSCALE_IP = '100.109.210.96'
 SERVER_RELEASE_ADDR = 'otaroad-oracle-cloud.wahoo-in.ts.net'
+CONTAINER_INTERNAL_IP = socket.gethostbyname(socket.gethostname())
 
-ALLOWED_HOSTS = ['127.0.0.1', SERVER_TAILSCALE_IP,
+ALLOWED_HOSTS = ['127.0.0.1', CONTAINER_INTERNAL_IP,
                  SERVER_RELEASE_ADDR, 'beta.otaroad.party'
                  ]
 
@@ -35,7 +36,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'https://dev.subculture-map-frontend.pages.dev',
     'http://127.0.0.1:3000',
-    f'http://{SERVER_TAILSCALE_IP}:7500',
+    f'http://{CONTAINER_INTERNAL_IP}:7500',
     'https://beta.otaroad.party',
     f'https://{SERVER_RELEASE_ADDR}',
     'http://127.0.0.1:7500',
@@ -52,9 +53,9 @@ CSRF_TRUSTED_ORIGINS = [
     f'https://{SERVER_RELEASE_ADDR}/otaroad-admin/',
     f'https://{SERVER_RELEASE_ADDR}/django-admin/',
     'http://127.0.0.1:3000',
-    f'http://{SERVER_TAILSCALE_IP}:7500/otaroad-admin/',
-    f'http://{SERVER_TAILSCALE_IP}:7500/django-admin/',
-    f'http://{SERVER_TAILSCALE_IP}/swagger',
-    f'http://{SERVER_TAILSCALE_IP}/redoc',
+    f'http://{CONTAINER_INTERNAL_IP}:7500/otaroad-admin/',
+    f'http://{CONTAINER_INTERNAL_IP}:7500/django-admin/',
+    f'http://{CONTAINER_INTERNAL_IP}/swagger',
+    f'http://{CONTAINER_INTERNAL_IP}/redoc',
     'http://127.0.0.1:7500'
 ]
