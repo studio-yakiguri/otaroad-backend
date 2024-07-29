@@ -4,9 +4,11 @@ import socket
 
 SERVER_RELEASE_ADDR = 'otaroad-oracle-cloud.wahoo-in.ts.net'
 CONTAINER_INTERNAL_IP = socket.gethostbyname(socket.gethostname())
+TAILSCALE_IP = '100.109.210.96'
 
 ALLOWED_HOSTS = ['127.0.0.1', CONTAINER_INTERNAL_IP,
-                 SERVER_RELEASE_ADDR, 'beta.otaroad.party'
+                 SERVER_RELEASE_ADDR, 'beta.otaroad.party',
+                 TAILSCALE_IP
                  ]
 
 # Debug Options
