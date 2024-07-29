@@ -43,6 +43,7 @@ function dataInsertToTable(shop) {
     const textName = document.createTextNode(shop.name);
     const textLocation = document.createTextNode(locationList.get(shop.location).location);
     const textAddress = document.createTextNode(shortAddress);
+    const textShopType = document.createTextNode(shoptype_list.get(shop.shopType).type);
 
     // 매장이름 element 추가 
     const aName = document.createElement('a');
@@ -56,6 +57,7 @@ function dataInsertToTable(shop) {
     cellName.appendChild(aName);
     cellLocation.appendChild(textLocation);
     cellAddress.appendChild(textAddress);
+    cellShopType.appendChild(textShopType);
 
     // 매장 태그 추가
     for (let i = 0; i < shop.shopType.length; i++) {
