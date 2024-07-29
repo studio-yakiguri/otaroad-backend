@@ -2,7 +2,8 @@
 
 // 백엔드 서버 주소 설정
 // const url = 'http://127.0.0.1:7500/v1/shop/';
-const url = 'http://100.109.210.96:7500/v1/shop/';
+// const url = 'http://100.109.210.96:7500/v1/shop/';
+const url = 'http://172.18.0.3/v1/shop/';
 
 // 매장리스트 MAP
 let shopList = new Map();
