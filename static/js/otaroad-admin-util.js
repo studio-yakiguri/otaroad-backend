@@ -458,6 +458,11 @@ function listToMap(listTypeData, type) {
     return mapTypeData;
 }
 
+function getUrl() {
+    const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
+    const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/g;
+}
+
 /* 웹브라우저에서 쿠키 가져오는 함수
     document.cookie 통해서 가져온 값을 ;로 split해서 배열화
     개수만큼 반복해서 cookie 한개를 key와 value로 나눈 object로 저장
