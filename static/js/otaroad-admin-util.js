@@ -43,7 +43,6 @@ function dataInsertToTable(shop) {
     const textName = document.createTextNode(shop.name);
     const textLocation = document.createTextNode(locationList.get(shop.location).location);
     const textAddress = document.createTextNode(shortAddress);
-    const textShopType = document.createTextNode(shoptype_list.get(shop.shopType).type);
 
     // 매장이름 element 추가 
     const aName = document.createElement('a');
@@ -57,7 +56,6 @@ function dataInsertToTable(shop) {
     cellName.appendChild(aName);
     cellLocation.appendChild(textLocation);
     cellAddress.appendChild(textAddress);
-    cellShopType.appendChild(textShopType);
 
     // 매장 태그 추가
     for (let i = 0; i < shop.shopType.length; i++) {
@@ -458,6 +456,11 @@ function listToMap(listTypeData, type) {
     });
 
     return mapTypeData;
+}
+
+function getUrl() {
+    const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
+    const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/g;
 }
 
 /* 웹브라우저에서 쿠키 가져오는 함수
