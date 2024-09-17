@@ -49,7 +49,7 @@ function search() {
 
 // 테이블 데이터 수정 후 request 하는 함수
 function editShopInfo() {
-
+    //const body = getFormData('dataAddModalForm');
 }
 
 // 테이블 데이터 제거 후 request 하는 함수
@@ -118,8 +118,7 @@ function setRequest(method, body) {
 // 요청 핸들링
 function handleResponse(response) {
     if (!response.ok) {
-        throw new Error('Network response was not ok');
-        alert("Network response was not ok")
+        throw new Error(response);
     }
     return response.json();
 }

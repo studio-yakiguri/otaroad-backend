@@ -134,22 +134,42 @@ function makeBasicTempete(shopId="", ModalName, editable=false) {
 }
 */
 
+/*
+    datainfomodal에서 '수정' 버튼을 눌렀을 경우 event가 발생하면서
+    datainfoModal이 열리는 동시에 데이터를 수정할 수 있는 FormUI가 생성할 수 있도록
+    도와주는 함수
+*/
+function editShopInfo(shopId) {
+    //loadShopInfo(shopId, true);
+    console.log("test");
+}
+
 /* row 하나 클릭했을 때 매장 정보를 모달로 불러오는 함수
   shopId: response 받은 데이터 내의 shoplist 보면 id라고 적힌 것
   editable: 각각 오브젝트를 수정가능하게 만들것인지 안되게 할 것인지 확인
 */
-function loadShopInfo(shopId) {
+function loadShopInfo(shopId, editable = false) {
 
     // 매장 ID로 해당하는 매장정보 가져오기
     const shopData = shopList.get(shopId);
 
     // 모달 표시
     const dataInfoModal = new bootstrap.Modal('#dataInfoModal');
-    dataInfoModal.show();
+    dataInfoModal.toggle();
 
     // 모달 라벨 설정
     const dataInfoModalLabel = document.querySelector("#dataInfoModalLabel");
     dataInfoModalLabel.innerText = " '" + shopData.name + "' 매장정보";
+    if (editable == true) {
+        dataInfoModalLabel.innerText = "매장정보 수정";
+    }
+
+    // 모달 수정 버튼 설정
+    const dataInfoModalEditButton = document.querySelector("#dataEditButton");
+    dataInfoModalEditButton.addEventListener("click", () => {
+        //dataInfoModal.hide();
+        //loadShopInfo(shopId, true);
+    })
 
     // modal body 안에 있는 input group text 안에 데이터 넣기
     const dataInfoModalBodyContainer = document.getElementById("dataInfoModal-Body-Container");
@@ -165,13 +185,18 @@ function loadShopInfo(shopId) {
         const span = document.createElement("span");
         const spanText = document.createTextNode(objectKeyName);
         span.setAttribute("class", "input-group-text");
-        span.setAttribute("id", "input-disabled-" + objectKeyName);
+        if (editable != true) {
+            span.setAttribute("id", "input-disabled-" + objectKeyName);
+        }
         span.appendChild(spanText);
 
         const input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("class", "form-control");
-        input.setAttribute("disabled", "");
+        if (editable != true) {
+            input.setAttribute("disabled", "");
+        }
+
 
         const textarea = document.createElement("textarea");
 
@@ -180,7 +205,10 @@ function loadShopInfo(shopId) {
             case "workTime":
                 textarea.setAttribute("class", "form-control");
                 textarea.setAttribute("rows", "3");
-                textarea.setAttribute("disabled", "");
+                if (editable != true) {
+                    textarea.setAttribute("disabled", "");
+                }
+
 
                 const worktimeText = document.createTextNode(shopData[objectKeyName]);
                 textarea.appendChild(worktimeText);
@@ -192,7 +220,9 @@ function loadShopInfo(shopId) {
             case "content":
                 textarea.setAttribute("class", "form-control");
                 textarea.setAttribute("rows", "7");
-                textarea.setAttribute("disabled", "");
+                if (editable != true) {
+                    textarea.setAttribute("disabled", "");
+                }
 
                 const contentText = document.createTextNode(shopData[objectKeyName]);
                 textarea.appendChild(contentText);
@@ -229,6 +259,8 @@ function loadShopInfo(shopId) {
     }
 
 }
+
+
 
 
 /*
