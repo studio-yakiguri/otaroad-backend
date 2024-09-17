@@ -9,8 +9,6 @@ const browserUrl = window.location.href
 const url = window.location.href != openBetaUrl
     ? getTestServerAddress(browserUrl, "7500") + "/v1/shop/" : openBetaUrl + "/v1/shop/";
 
-console.log(url);
-
 // 매장리스트 MAP
 let shopList = new Map();
 

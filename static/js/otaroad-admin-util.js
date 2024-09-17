@@ -459,12 +459,13 @@ function listToMap(listTypeData, type) {
 }
 
 /*
-
+    웹브라우저에서 추출한 ip url 기반으로 URL 조합해주는 함수
+    클로즈테스트 서버를 위한 함수임
 */
-function getAddress(url, port) {
+function getTestServerAddress(url, port) {
     const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
     const httpsRegex = /(http(s)?:\/\/)/g;
-    return httpsRegex.match(url)[0] + ipV4regex.match(url)[0] + ":" + port
+    return httpsRegex.match(url)[0] + ipV4regex.match(url)[0] + ":" + port;
 }
 
 /* 웹브라우저에서 쿠키 가져오는 함수
