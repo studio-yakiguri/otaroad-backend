@@ -1,16 +1,13 @@
 /* otaroad.admin.request.js by LeeDongHyeong */
 
 // 백엔드 서버 주소 설정
-const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
-const urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
-const betaUrl = 'https://otaroad-oracle-cloud.wahoo-in.ts.net';
+const openBetaUrl = 'https://otaroad-oracle-cloud.wahoo-in.ts.net';
 const browserUrl = window.location.href
-const backendPort = ':7500'
 
 // 백엔드 URL확인
 // 브라우저 주소창의 URL이 betaUrl이랑 같지 않으면
-const url = window.location.href != betaUrl
-    ? ipV4regex(browserUrl) + backendPort + "/v1/shop/" : betaUrl + "/v1/shop/";
+const url = window.location.href != openBetaUrl
+    ? getTestServerAddress(browserUrl, "7500") + "/v1/shop/" : openBetaUrl + "/v1/shop/";
 
 console.log(url);
 

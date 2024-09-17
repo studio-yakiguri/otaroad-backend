@@ -458,9 +458,13 @@ function listToMap(listTypeData, type) {
     return mapTypeData;
 }
 
-function getUrl() {
+/*
+
+*/
+function getAddress(url, port) {
     const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
-    const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/g;
+    const httpsRegex = /(http(s)?:\/\/)/g;
+    return httpsRegex.match(url)[0] + ipV4regex.match(url)[0] + ":" + port
 }
 
 /* 웹브라우저에서 쿠키 가져오는 함수
