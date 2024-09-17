@@ -465,7 +465,7 @@ function listToMap(listTypeData, type) {
 function getTestServerAddress(url, port) {
     const ipV4regex = /(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/g;
     const httpsRegex = /(http(s)?:\/\/)/g;
-    return httpsRegex.match(url)[0] + ipV4regex.match(url)[0] + ":" + port;
+    return url.match(httpsRegex)[0] + url.match(ipV4regex)[0] + ":" + port;
 }
 
 /* 웹브라우저에서 쿠키 가져오는 함수
