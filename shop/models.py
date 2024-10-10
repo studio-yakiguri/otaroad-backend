@@ -62,7 +62,6 @@ class ShopData(models.Model):
     bizName = models.CharField(
         max_length=100,
         null=True,
-        blank=True,
         help_text="상호명 입력"
     )
 
@@ -70,7 +69,6 @@ class ShopData(models.Model):
     bizCode = models.CharField(
         max_length=100,
         null=True,
-        blank=True,
         help_text="사업자등록번호"
     )
 
@@ -78,7 +76,6 @@ class ShopData(models.Model):
     bizStatus = models.CharField(
         max_length=100,
         null=True,
-        blank=True,
         help_text="사업자운영현황"
     )
 
