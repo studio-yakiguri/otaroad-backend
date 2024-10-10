@@ -58,6 +58,27 @@ class ShopData(models.Model):
         help_text="매장 이름 입력"
     )
 
+    # 상호명
+    bizName = models.CharField(
+        max_length=100,
+        help_text="상호명 입력",
+        null=True,
+    )
+
+    # 사업자등록코드
+    bizCode = models.CharField(
+        max_length=100,
+        help_text="사업자등록번호",
+        null=True,
+    )
+
+    # 사업자운영현황
+    bizStatus = models.CharField(
+        max_length=100,
+        help_text="사업자운영현황",
+        null=True,
+    )
+
     # 매장 지역 1:N
     location = models.ForeignKey(
         Location,
